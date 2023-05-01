@@ -1,0 +1,59 @@
+.wrapper {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 0px;
+    /* border: 1px solid rgb(62, 32, 152); */
+
+  }
+  
+  .itemsWrapper {
+    /* border: 1px solid rgb(62, 32, 152); */
+    }
+  
+  .itemsInnerWrapper {
+    /* border: 11px solid red; */
+
+  }
+  
+  
+  .itemWrapper{
+    width: fit-content;
+    /* border: 1px solid red; */
+  }
+  
+  .rightChevronWrapper,
+  .leftChevronWrapper {
+    border: 2px solid grey;
+    height: 25px !important;
+    width: 25px !important;
+    border-radius: 5px;
+    /* top: 55px !important; */
+  }
+  
+  .rightChevronWrapper {
+    top:-28px !important;
+    right:1px !important;
+    /* right: -16px !important; */
+  }
+  
+  .leftChevronWrapper {
+    top:-28px !important;
+    right:50px !important;
+    left: auto !important;
+  
+    /* left: -16px !important; */
+ 
+  }
+  
+  .rightChevronWrapper svg,
+  .leftChevronWrapper svg {
+    font-size: 30px;
+    height: 100%;
+    width: 100%;
+    color: grey;
+    border-radius: 5px;
+  
+    background-color: white;
+  }
+  

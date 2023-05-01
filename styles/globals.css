@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+/*👇 css for home page horizontal scroll to display brands👇 */
+.wrapper {
+  border: 2px solid grey;
+  border-radius: 10px;
+  width: calc(100% - 100px);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px 30px;
+}
+
+.itemsWrapper {}
+
+.itemsInnerWrapper {}
+
+
+.itemWrapper{
+  width: fit-content;
+  /* border: 1px solid red; */
+}
+
+.rightChevronWrapper,
+.leftChevronWrapper {
+  border: 2px solid grey;
+  height: 25px !important;
+  width: 25px !important;
+  border-radius: 5px;
+  top: 55px !important;
+}
+
+.rightChevronWrapper {
+
+  right: -16px !important;
+}
+
+.leftChevronWrapper {
+
+  left: -16px !important;
+}
+
+.rightChevronWrapper svg,
+.leftChevronWrapper svg {
+  font-size: 30px;
+  height: 100%;
+  width: 100%;
+  color: grey;
+  border-radius: 5px;
+
+  background-color: white;
+}
+
+.carouselTitleContainer {
+  text-transform: uppercase;
+  font-family: "Oswald";
+  background: transparent;
+  position: relative;
+  width: 100%;
+  /* border: 1px solid red; */
+  /* left: 40%; */
+  top: 14px; 
+  z-index: 10;
+  text-align: center;
+}
+/* carouselTitleContainer */
+.carouselTitleText{
+  background: white;
+  width: fit-content;
+  padding: 0px 10px;
+  margin: auto;
+}
+
+/*👆 css for home page horizontal scroll to display brands👆 */
