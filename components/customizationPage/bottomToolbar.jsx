@@ -1,14 +1,26 @@
-import React from "react";
-import { Box, Divider,IconButton,Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
 import PaletteIcon from "@mui/icons-material/Palette";
 import AbcIcon from "@mui/icons-material/Abc";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import { IoShapes } from "react-icons/io5";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import CardPopover from "./cardPopover";
 
+const BottomToolbar = ({ addText, addImage }) => {
+   const [anchorEl, setAnchorEl] = useState(null);
+   // ==== code for shapes popover
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+   };
 
+   const handleClose = () => {
+      setAnchorEl(null);
+   };
+   const open = Boolean(anchorEl);
+   const id = open ? "shapes-popover" : undefined;
+   // ==== code for shapes popover
 
-const BottomToolbar = ({addText,addImage}) => {
    return (
       <Stack>
          <Box paddingTop={"20px"} sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -67,6 +79,8 @@ const BottomToolbar = ({addText,addImage}) => {
             </IconButton>
             {/* 👇  Add Shapes button 👇 */}
             <IconButton
+               aria-describedby={id}
+               onClick={handleClick}
                disableRipple
                sx={{
                   borderRadius: "0px",
@@ -79,6 +93,10 @@ const BottomToolbar = ({addText,addImage}) => {
                }}>
                <IoShapes /> <Typography paddingX="10px">Shapes</Typography>
             </IconButton>
+            <CardPopover id={id} open={open} anchorEl={anchorEl} handleClose={handleClose}>
+               <Typography>Hi anmsnfdkjfjkdsfkjdsf</Typography>
+            </CardPopover>
+
             {/* 👆 Add Shapes button 👆*/}
             {/* 👇  Add Effects 👇 */}
             <IconButton
@@ -96,6 +114,7 @@ const BottomToolbar = ({addText,addImage}) => {
             </IconButton>
             {/* 👆 Add Effects 👆*/}
          </Box>
+
          <Divider sx={{ borderBottomWidth: "1px" }} />
       </Stack>
    );
