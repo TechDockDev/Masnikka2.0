@@ -1,28 +1,28 @@
-import { Box, Button, Divider, Grid, IconButton, List, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, FormControl, Grid, IconButton, InputLabel, List, Menu, MenuItem, Select, Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import PaletteIcon from "@mui/icons-material/Palette";
-import AbcIcon from "@mui/icons-material/Abc";
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
-import { IoShapes } from "react-icons/io5";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
+import BottomToolbar from "./bottomToolbar";
+import TextToolBar from "./textToolBar";
+import ImgToolbar from "./imgToolbar";
 
 const CustomizationPage = () => {
    const [prImg, setPrImg] = useState("");
-   const [addTextMode, setAddTextMode] = useState(false);
    const { editor, onReady } = useFabricJSEditor();
-   const [anchorEl, setAnchorEl] = useState(null);
-   const open = Boolean(anchorEl);
-   // ========= 👇 dropdown menu code==========================
-   const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-   };
-   const handleClose = () => {
-      setAnchorEl(null);
-   };
-   // ========= 👆 dropdown menu code==========================
 
+   //  ===👇 handle font select👇
+   const handleFontChange = (e) => {
+      editor?.canvas?.getActiveObject().set("fontFamily", e.target.value);
+      editor?.canvas.renderAll();
+   };
+   // ===👆 handle font select👆
+   //  ===👇 LAYERS toggle(bring layers front or back)👇
+   const toggleLayer = () => {
+      const myObject = editor?.canvas?.getActiveObject();
+      editor?.canvas?.bringToFront(myObject);
+   };
+   // ===👆 LAYERS toggle(bring layers front or back)👆
    //  ===👇 ADD text function👇
    const addText = () => {
       const object = new fabric.IText("Edit Text", {
@@ -152,6 +152,22 @@ const CustomizationPage = () => {
       }
    };
    // ===👆 text style STRIKE THROUGH👆
+   //  ===👇 ADD IMAGE function👇
+   const addImage = (e) => {
+      const image = e.target.files[0];
+      if (image) {
+         fabric?.Image?.fromURL(URL.createObjectURL(e.target.files[0]), (img) => {
+            editor?.canvas?.add(img);
+            editor?.canvas?.renderAll();
+         });
+         // setImageFunc(URL.createObjectURL(e.target.files[0]));
+      }
+   };
+   // ===👆 ADD IMAGE function👆
+
+   
+
+   // *******************
 
    //  ===👇 USE EFFECT👇
    useEffect(() => {
@@ -246,198 +262,16 @@ const CustomizationPage = () => {
                {/* <FabricComponent/> */}
                <FabricJSCanvas className="canvas-container" onReady={onReady} />
 
-               {/* 👇 bottom toolbar  👇   */}
-               {!addTextMode ? (
-                  <Stack>
-                     <Box paddingTop={"20px"} sx={{ display: "flex", justifyContent: "space-between" }}>
-                        {/* 👇 color button 👇 */}
-                        <IconButton
-                           disableRipple
-                           sx={{
-                              borderRadius: "0px",
-                              boxSizing: "border-box",
-                              transition: "all 200ms ease",
-                              "&:hover": {
-                                 color: "black",
-                                 borderBottom: "2px solid black",
-                              },
-                           }}>
-                           <PaletteIcon /> <Typography paddingX="10px">Color</Typography>
-                        </IconButton>
-                        {/* 👆color button 👆*/}
-                        {/* 👇  Add text button 👇 */}
-                        <IconButton
-                           onClick={() => {
-                              addText();
-                           }}
-                           disableRipple
-                           sx={{
-                              borderRadius: "0px",
-                              boxSizing: "border-box",
-                              transition: "all 200ms ease",
-                              "&:hover": {
-                                 color: "black",
-                                 borderBottom: "2px solid black",
-                              },
-                           }}>
-                           <AbcIcon /> <Typography paddingX="10px">Text</Typography>
-                        </IconButton>
-                        {/* 👆 Add text button 👆*/}
-                        {/* 👇  Add Photo button 👇 */}
-                        <IconButton
-                           disableRipple
-                           sx={{
-                              borderRadius: "0px",
-                              boxSizing: "border-box",
-                              transition: "all 200ms ease",
-                              "&:hover": {
-                                 color: "black",
-                                 borderBottom: "2px solid black",
-                              },
-                           }}>
-                           <PhotoLibraryIcon /> <Typography paddingX="10px">Photo</Typography>
-                           {/* 👆 Add Photo button 👆*/}
-                        </IconButton>
-                        {/* 👇  Add Shapes button 👇 */}
-                        <IconButton
-                           disableRipple
-                           sx={{
-                              borderRadius: "0px",
-                              boxSizing: "border-box",
-                              transition: "all 200ms ease",
-                              "&:hover": {
-                                 color: "black",
-                                 borderBottom: "2px solid black",
-                              },
-                           }}>
-                           <IoShapes /> <Typography paddingX="10px">Shapes</Typography>
-                        </IconButton>
-                        {/* 👆 Add Shapes button 👆*/}
-                        {/* 👇  Add Effects 👇 */}
-                        <IconButton
-                           disableRipple
-                           sx={{
-                              borderRadius: "0px",
-                              boxSizing: "border-box",
-                              transition: "all 200ms ease",
-                              "&:hover": {
-                                 color: "black",
-                                 borderBottom: "2px solid black",
-                              },
-                           }}>
-                           <AutoFixHighIcon /> <Typography paddingX="10px">Effects</Typography>
-                        </IconButton>
-                        {/* 👆 Add Effects 👆*/}
-                     </Box>
-                     <Divider sx={{ borderBottomWidth: "1px" }} />
-                  </Stack>
+               {/* 👇 TOOLBARS   👇   */}
+               {editor?.canvas?.getActiveObject()?.type === "i-text" ? (
+                  <TextToolBar clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject} bold={bold} italic={italic} underline={underline} strike={strike} changeColor={changeColor} handleFontChange={handleFontChange} />
+               ) : editor?.canvas?.getActiveObject()?.type === "image" ? (
+                  <ImgToolbar  clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject}/>
                ) : (
-                  <Stack>
-                     {/* 👇 This section is visible in ADD TEXT mode 👇   */}
-                     <Box mt={2} padding={"10px"} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid black" }}>
-                        {/* 👇 clone button 👇 */}
-                        <Button
-                           variant="text"
-                           disableRipple
-                           onClick={() => {
-                              clone();
-                           }}
-                           sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Clone
-                        </Button>
-                        {/* 👆clone button👆*/}
-                        {/* 👇  Layer button 👇 */}
-                        <Button variant="text" disableRipple onClick={() => {}} sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Layer
-                        </Button>
-                        {/* 👆  Layer button 👆*/}
-                        {/* 👇  FlipX button 👇 */}
-                        <Button
-                           variant="text"
-                           disableRipple
-                           onClick={() => {
-                              flipX();
-                           }}
-                           sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Flip-X
-                        </Button>
-                        {/* 👆  FlipX button  👆*/}
-                        {/* 👇  FlipY button 👇 */}
-                        <Button
-                           variant="text"
-                           disableRipple
-                           onClick={() => {
-                              flipY();
-                           }}
-                           sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Flip-Y
-                        </Button>
-                        {/* 👆  FlipY button  👆*/}
-                        {/* 👇  delete button 👇 */}
-                        <Button
-                           variant="text"
-                           disableRipple
-                           onClick={() => {
-                              removeSelectedObject();
-                           }}
-                           sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Delete
-                        </Button>
-                        {/* 👆  delete button  👆*/}
-                     </Box>
-                     {/* =========================================================== */}
-                     <Box mt={2} padding={"10px"} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid black" }}>
-                        {/* 👇 Color button 👇 */}
-                        <Button variant="text" disableRipple sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           <input type="color" onChange={changeColor} />
-                        </Button>
-                        {/* 👆 Color button👆*/}
-                        {/* 👇  Font family button 👇 */}
-                        <Button variant="text" disableRipple onClick={() => {}} sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Font
-                        </Button>
-                        {/* 👆  Font family button 👆*/}
-                        {/* 👇  Style button 👇 */}
-                        <Button variant="text" disableRipple onClick={handleClick} sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Style
-                        </Button>
-                        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                           <MenuItem
-                              onClick={() => {
-                                 bold();
-                                 handleClose();
-                              }}>
-                              Bold
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => {
-                                 italic();
-                                 handleClose();
-                              }}>
-                              Italic
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => {
-                                 underline();
-                                 handleClose();
-                              }}>
-                              Underline
-                           </MenuItem>
-                           <MenuItem
-                              onClick={() => {
-                                 strike();
-                                 handleClose();
-                              }}>
-                              Strike
-                           </MenuItem>
-                        </Menu>
-                        {/* 👆  Style button  👆*/}
-                     </Box>
-                     {/*👆  This section is visible in ADD TEXT mode 👆  */}
-                  </Stack>
+                  <BottomToolbar addText={addText} addImage={addImage} />
                )}
 
-               {/*👆  bottom toolbar  👆  */}
+               {/*👆  TOOLBARS   👆  */}
                <Button
                   variant="contained"
                   sx={{
