@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FormControl, Grid, IconButton, InputLabel, List, Menu, MenuItem, Select, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 import { fabric } from "fabric";
@@ -6,10 +6,12 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import BottomToolbar from "./bottomToolbar";
 import TextToolBar from "./textToolBar";
 import ImgToolbar from "./imgToolbar";
+import ShapesToolbar from "./shapesToolbar";
 
 const CustomizationPage = () => {
    const [prImg, setPrImg] = useState("");
    const { editor, onReady } = useFabricJSEditor();
+   const [shapesInterfcae, setShapesInterfcae] = useState(false);
 
    //  ===👇 handle font select👇
    const handleFontChange = (e) => {
@@ -164,9 +166,179 @@ const CustomizationPage = () => {
       }
    };
    // ===👆 ADD IMAGE function👆
+   //  ===👇 ADD SHAPE functions👇
+   const addShape = (e) => {
+      setShapesInterfcae(true);
+   };
+   // =========================================
+   // =========================================
+   const starPolygonPoints = (spikeCount, outerRadius, innerRadius) => {
+      const rot = (Math.PI / 2) * 3;
+      let cx = outerRadius;
+      let cy = outerRadius;
+      const sweep = Math.PI / spikeCount;
+      const points = [];
+      let angle = 0;
 
-   
+      for (let i = 0; i < spikeCount; i++) {
+         let x = cx + Math.cos(angle) * outerRadius;
+         let y = cy + Math.sin(angle) * outerRadius;
+         points.push({ x: x, y: y });
+         angle += sweep;
 
+         x = cx + Math.cos(angle) * innerRadius;
+         y = cy + Math.sin(angle) * innerRadius;
+         points.push({ x: x, y: y });
+         angle += sweep;
+      }
+      return points;
+   };
+   // ******************
+   const regularPolygonPoints = (sideCount, radius) => {
+      const sweep = (Math.PI * 2) / sideCount;
+      let cx = radius;
+      let cy = radius;
+      const points = [];
+      for (let i = 0; i < sideCount; i++) {
+         let x = cx + radius * Math.cos(i * sweep);
+         let y = cy + radius * Math.sin(i * sweep);
+         points.push({ x: x, y: y });
+      }
+      return points;
+   };
+
+   // =========================================
+   // =========================================
+
+   // **** 👇
+   const addRectangle = () => {
+      const rectangle = new fabric.Rect({
+         top: 100,
+         left: 100,
+         width: 100,
+         height: 100,
+         fill: "black",
+       });
+      editor?.canvas.add(rectangle);
+   };
+   // **** 👆
+   // **** 👇
+   const addCircle = () => {
+      const circle = new fabric.Circle({
+         radius: 15,
+         left: 100,
+         top: 100,
+       });
+      editor?.canvas.add(circle);
+       
+   };
+   // **** 👆
+   // **** 👇
+   const addTriangle = () => {
+      const triangle = new fabric.Triangle({
+         width: 40,
+         height: 60,
+         left: 150,
+         top: 50,
+      });
+
+      editor?.canvas.add(triangle);
+   };
+   // **** 👆
+   // **** 👇
+   const addStar = () => {
+      const points = starPolygonPoints(5, 50, 25);
+      const polygon = new fabric.Polygon(points, {
+         fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addHexagram = () => {
+      const points = starPolygonPoints(6, 50, 25);
+      const polygon = new fabric.Polygon(points, {
+         fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addHeptagram = () => {
+      const points = starPolygonPoints(7, 50, 25);
+      const polygon = new fabric.Polygon(points, {
+         fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addLine = () => {
+      const line = new fabric.Line([50, 10, 200, 150], {
+         stroke: "black",
+      });
+      editor?.canvas.add(line);
+   };
+   // **** 👆
+   // **** 👇
+   const addPentagone = () => {
+      const points = regularPolygonPoints(5, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+        // stroke: "green",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addHexagone = () => {
+      const points = regularPolygonPoints(6, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addHeptagone = () => {
+      const points = regularPolygonPoints(7, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addOctagone = () => {
+      const points = regularPolygonPoints(8, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addNonagone = () => {
+      const points = regularPolygonPoints(9, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+   // **** 👇
+   const addDecagone = () => {
+      const points = regularPolygonPoints(10, 30);
+      const polygon = new fabric.Polygon(points, {
+        fill: "black",
+      });
+      editor?.canvas.add(polygon);
+   };
+   // **** 👆
+
+   // ===👆 ADD SHAPE functions👆
+ console.log('--->', editor?.canvas?.getActiveObject()?.type);
+ 
    // *******************
 
    //  ===👇 USE EFFECT👇
@@ -266,9 +438,11 @@ const CustomizationPage = () => {
                {editor?.canvas?.getActiveObject()?.type === "i-text" ? (
                   <TextToolBar clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject} bold={bold} italic={italic} underline={underline} strike={strike} changeColor={changeColor} handleFontChange={handleFontChange} />
                ) : editor?.canvas?.getActiveObject()?.type === "image" ? (
-                  <ImgToolbar  clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject}/>
+                  <ImgToolbar clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject} />
+               ) : shapesInterfcae ? (
+                  <ShapesToolbar addRectangle={addRectangle} addCircle={addCircle} addTriangle={addTriangle} addStar={addStar} addHexagram={addHexagram} addHeptagram={addHeptagram} addLine={addLine} addPentagone ={addPentagone} addHexagone={addHexagone} addHeptagone={addHeptagone} addOctagone={addOctagone} addNonagone={addNonagone} addDecagone={addDecagone} changeColor={changeColor}removeSelectedObject={removeSelectedObject} clone={clone} setShapesInterfcae={setShapesInterfcae} />
                ) : (
-                  <BottomToolbar addText={addText} addImage={addImage} />
+                  <BottomToolbar addText={addText} addImage={addImage} addShape={addShape} />
                )}
 
                {/*👆  TOOLBARS   👆  */}

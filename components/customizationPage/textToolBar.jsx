@@ -80,8 +80,7 @@ const TextToolBar = ({clone,toggleLayer,flipX,flipY, removeSelectedObject,bold,i
             </Button>
             {/* 👆 Color button👆*/}
             {/* 👇  Font family button 👇 */}
-            {/* <Button variant="text" disableRipple onClick={() => {}} sx={{ transition: "all 200ms ease", "&:hover": { bgcolor: "#fff", translate: "0px 4px", textDecoration: "underline" } }}>
-                           Font */}
+           
             <FormControl fullWidth>
                <InputLabel id="font">Font</InputLabel>
                <Select labelId="font" id="font" label="Font" onChange={handleFontChange} sx={{}}>
