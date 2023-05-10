@@ -1,18 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "./layout";
-import { Stack, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-
-const MyAccountLayout = ({children}) => {
+import { Stack, List, ListItemButton, ListItemIcon, ListItemText, IconButton, Backdrop } from "@mui/material";
+import Link from "next/link";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+const MyAccountLayout = ({ children }) => {
+   const [openmenu, setOpenmenu] = useState(false);
+   const toggleMenu = () => {
+      setOpenmenu(!openmenu);
+   };
    return (
       <Layout>
          <Stack paddingX="15px" position={"relative"} mb={2} direction={"row"}>
-            <List sx={{ width: "250px", border: "1px solid grey", borderRadius: "8px", marginTop: "100px"  }}>
+            <Backdrop sx={{ color: "#fff", display:{xs:"block", md:"none"} }} open={openmenu} onClick={toggleMenu} />
+            <IconButton
+               onClick={toggleMenu}
+               sx={{
+                  display: { xs: "block", md: "none" },
+                  position: "absolute",
+                  top: "50px",
+               }}>
+               {openmenu ? <CloseIcon sx={{zIndex:"100", color:"white"}} /> : <MenuIcon />}
+            </IconButton>
+            <List
+               sx={{
+                  width: { xs: openmenu ? "250px" : "0px", md: "250px" },
+                  position: { xs: "absolute", md: "static" },
+                  border: { xs: !openmenu ? "none" : "1px solid grey", md: "1px solid grey" },
+                  borderRadius: "8px",
+                  marginTop: "100px",
+                  bgcolor: "white",
+                  top: "-10px",
+                  transition: "all 300ms ease-in-out",
+                  overflow: "hidden",
+                  zIndex: "100",
+               }}>
                {/* 👇 Profile 👇   */}
                <ListItemButton
+                  component={Link}
+                  to="/myaccount"
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",
@@ -26,10 +56,12 @@ const MyAccountLayout = ({children}) => {
                {/*👆  Profile   👆  */}
                {/* 👇 MY ORDERS  👇   */}
                <ListItemButton
+                  component={Link}
+                  to="/orders"
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",
@@ -45,8 +77,8 @@ const MyAccountLayout = ({children}) => {
                <ListItemButton
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",
@@ -62,8 +94,8 @@ const MyAccountLayout = ({children}) => {
                <ListItemButton
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",
@@ -79,8 +111,8 @@ const MyAccountLayout = ({children}) => {
                <ListItemButton
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",
@@ -96,8 +128,8 @@ const MyAccountLayout = ({children}) => {
                <ListItemButton
                   disableRipple
                   sx={{
-                    marginTop:"10px",
-                    paddingX:"25px",
+                     marginTop: "10px",
+                     paddingX: "25px",
                      "&:hover": {
                         bgcolor: " #E6F1FA",
                         borderRadius: "8px",

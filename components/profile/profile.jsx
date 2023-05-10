@@ -1,7 +1,37 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Stack, Typography, Grid, IconButton, Button } from "@mui/material";
 import React from "react";
-
+import { useState } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const Profile = () => {
+   const [passwordChange, setPasswordChange] = useState(false);
+   const [visibility, setVisibility] = useState(false);
+   const [profileData, setProfileData] = useState({ name: "John Doe", email: "johndoe@gmail.com", mobile: "12345678345678", password: "", confirmPassword: "" });
+
+   const handleChange = (e) => {
+      setProfileData({ ...profileData, [e.target.name]: e.target.value });
+   };
+
+   const passChangeMode = () => {
+      setPasswordChange(!passwordChange);
+   };
+   const toggleVisibility = () => {
+      setVisibility(!visibility);
+   };
+   const inputStyle = {
+      width: "90%",
+      bgcolor: "white",
+      ml: 2,
+      mt: 1,
+      border: "1px solid black",
+      borderRadius: "4px",
+      padding: "10px",
+      "&:disabled": {
+         color: "#a0a0a0",
+         border: "1px solid #a0a0a0",
+         borderRadius: "4px",
+      },
+   };
    return (
       <Stack
          sx={{
@@ -16,43 +46,114 @@ const Profile = () => {
                fontFamily: "Oswald",
                textAlign: "center",
                mt: 2,
+               mb: 2,
             }}>
             Profile
          </Typography>
+         <Divider />
          <Box
             sx={{
+               width: { sm: "400px" },
                border: "1px solid grey",
                borderRadius: "8px",
                mt: 2,
-               padding: "20px 40px",
+               marginX: "auto",
+               padding: { xs: "20px 20px", sm: "20px 40px" },
             }}>
-            <Stack direction={"row"} alignItems={"center"} justifyContent={"center"} p={2}>
+            <Stack alignItems={"center"} justifyContent={"center"} mb={3}>
                <Avatar sx={{ width: "100px", height: "100px" }} />
-            </Stack>
-            <Stack direction={"row"} alignItems={"center"}>
-               <Typography textTransform={"uppercase"}>NAME:</Typography>
-               <Typography fontWeight={600} ml={2} textTransform={"uppercase"}>
-                  John Doe
+               <Typography fontWeight={600} mt={2} textTransform={"uppercase"}>
+                  {profileData.name}
                </Typography>
             </Stack>
-            <Stack direction={"row"} alignItems={"center"} mt={1}>
-               <Typography textTransform={"uppercase"}>Email:</Typography>
-               <Typography fontWeight={600} ml={2} textTransform={"uppercase"}>
-                  johndoe@mail.com
-               </Typography>
-            </Stack>
-            <Stack direction={"row"} alignItems={"center"} mt={1}>
-               <Typography textTransform={"uppercase"}>Mobile:</Typography>
-               <Typography fontWeight={600} ml={2} textTransform={"uppercase"}>
-                  8876545677323546
-               </Typography>
-            </Stack>
-            <Stack direction={"row"} alignItems={"center"} mt={1}>
-               <Typography textTransform={"uppercase"}>Password:</Typography>
-               <Typography fontWeight={600} ml={2} textTransform={"uppercase"}>
-                  ************
-               </Typography>
-            </Stack>
+
+            {/* email 👇  */}
+            <Grid container sx={{ display: "felx", alignItems: "center", justifyContent: "center" }}>
+               <Grid item xs={3} md={4}>
+                  <Typography component={"label"} htmlFor="email">
+                     Email:
+                  </Typography>
+               </Grid>
+               <Grid item xs={8}>
+                  <Typography id="email" component={"input"} type="email" name="email" value={profileData.email} onChange={handleChange} disabled sx={inputStyle} />
+               </Grid>
+            </Grid>
+            {/* email👆  */}
+            {/* mobile number 👇  */}
+            <Grid container sx={{ display: "felx", alignItems: "center", justifyContent: "center" }}>
+               <Grid item xs={3} md={4}>
+                  <Typography component={"label"} htmlFor="mobile">
+                     Mobile:
+                  </Typography>
+               </Grid>
+               <Grid item xs={8}>
+                  <Typography id="mobile" component={"input"} type="number" name="mobile" value={profileData.mobile} onChange={handleChange} disabled sx={inputStyle} />
+               </Grid>
+            </Grid>
+            {/* mobile number👆  */}
+            {/* password 👇  */}
+            <Grid container sx={{ display: "felx", alignItems: "center", justifyContent: "center", position: "relative" }}>
+               <Grid item xs={3} md={4}>
+                  <Typography component={"label"} htmlFor="password">
+                     Password:
+                  </Typography>
+               </Grid>
+               <Grid item xs={8}>
+                  <Typography id="password" component={"input"} type={visibility ? "text" : "password"} name="password" value={passwordChange ? profileData?.password : "**************"} onChange={handleChange} disabled={!passwordChange} sx={inputStyle} />
+               </Grid>
+               <IconButton onClick={toggleVisibility} sx={{ position: "absolute", right: { xs: "0px", md: "-10px" }, top: "10px" }}>
+                  {passwordChange ? visibility ? <VisibilityOffIcon /> : <VisibilityIcon /> : ""}
+               </IconButton>
+               {!passwordChange && (
+                  <Button
+                     onClick={passChangeMode}
+                     sx={{
+                        color: "#0F6DB1",
+                        fontSize: "10px",
+                        marginLeft: "auto",
+                        "&:hover": {
+                           bgcolor: "white",
+                           textDecoration: "underline",
+                        },
+                     }}>
+                     Change Password
+                  </Button>
+               )}
+            </Grid>
+            {/* password👆  */}
+            {/* CONFIRM password 👇  */}
+            {passwordChange && (
+               <Grid container sx={{ display: "felx", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                  <Grid item xs={3} md={4}>
+                     <Typography component={"label"} htmlFor="confirmPassword">
+                        Confirm Password:
+                     </Typography>
+                  </Grid>
+                  <Grid item xs={8}>
+                     <Typography id="confirmPassword" component={"input"} type={visibility ? "text" : "password"} name="confirmPassword" value={profileData.confirmPassword} onChange={handleChange} disabled={!passwordChange} sx={inputStyle} />
+                  </Grid>
+                  <IconButton onClick={toggleVisibility} sx={{ position: "absolute", right: { xs: "0px", md: "-10px" }, top: "10px" }}>
+                     {passwordChange ? visibility ? <VisibilityOffIcon /> : <VisibilityIcon /> : ""}
+                  </IconButton>
+               </Grid>
+            )}
+            {/* CONFIRM password👆  */}
+            {/* Buttons 👇  */}
+            {passwordChange && (
+               <Grid container sx={{ display: "felx", alignItems: "center", justifyContent: "center", position: "relative", mt: 3 }}>
+                  <Grid item xs={6}>
+                     <Button variant="contained" sx={{ margin: "auto", display: "block" }}>
+                        Change Password
+                     </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                     <Button variant="outlined" onClick={passChangeMode} sx={{ margin: "auto", display: "block" }}>
+                        Cancel
+                     </Button>
+                  </Grid>
+               </Grid>
+            )}
+            {/* Buttons👆  */}
          </Box>
       </Stack>
    );

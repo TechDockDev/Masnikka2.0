@@ -4,6 +4,7 @@ import ShoeSizes from "../shoeSizes";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DoneIcon from "@mui/icons-material/Done";
+import Link from "next/link";
 
 const ProductView = () => {
    const [imgIndex, setImgIndex] = useState(0);
@@ -46,7 +47,7 @@ const ProductView = () => {
          {/*👆  products images preview  👆  */}
          {/* 👇 main image  👇   */}
 
-         <Grid item xs={12} md={5} sx={{ boxSizing: "border-box", paddingX: "20px" }}>
+         <Grid item xs={12} md={4} sx={{ boxSizing: "border-box", paddingX: "20px" }}>
             <Stack spacing={2}>
                <Box component="img" src="/assets/product.png" sx={{ width:{xs:"100%"} }} />
             </Stack>
@@ -137,7 +138,10 @@ const ProductView = () => {
                   <Button variant="contained" sx={{ fontFamily: "Oswald", fontWeight: "16px", fontWeight: "600", height: "45px", width: "120px" }}>
                      Add To Bag
                   </Button>
-                  <Button variant="outlined" sx={{ fontFamily: "Oswald", fontWeight: "16px", fontWeight: "600", height: "45px", width: "120px", ml: 3 }}>
+                  <Button 
+                  component={Link}
+                  href="/customization"
+                  variant="outlined" sx={{ fontFamily: "Oswald", fontWeight: "16px", fontWeight: "600", height: "45px", width: "120px", ml: 3 }}>
                      Customize
                   </Button>
                </Box>
