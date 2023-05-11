@@ -12,15 +12,16 @@ const MyAccountLayout = ({ children }) => {
    return (
       <Layout>
          <Stack paddingX="15px" position={"relative"} mb={2} direction={"row"}>
-            <Backdrop sx={{ color: "#fff", display:{xs:"block", md:"none"} }} open={openmenu} onClick={toggleMenu} />
+            <Backdrop sx={{ color: "#fff", display: { xs: "block", md: "none", zIndex:10 } }} open={openmenu} onClick={toggleMenu} />
             <IconButton
                onClick={toggleMenu}
                sx={{
                   display: { xs: "block", md: "none" },
                   position: "absolute",
                   top: "50px",
+                  zIndex: 100,
                }}>
-               {openmenu ? <CloseIcon sx={{zIndex:"100", color:"white"}} /> : <MenuIcon />}
+               {openmenu ? <CloseIcon sx={{ color: "white" }} /> : <MenuIcon />}
             </IconButton>
             <List
                sx={{
@@ -33,12 +34,12 @@ const MyAccountLayout = ({ children }) => {
                   top: "-10px",
                   transition: "all 300ms ease-in-out",
                   overflow: "hidden",
-                  zIndex: "100",
+                  zIndex: 100,
                }}>
                {/* 👇 Profile 👇   */}
                <ListItemButton
                   component={Link}
-                  to="/myaccount"
+                  href="/myaccount"
                   disableRipple
                   sx={{
                      marginTop: "10px",
@@ -57,7 +58,7 @@ const MyAccountLayout = ({ children }) => {
                {/* 👇 MY ORDERS  👇   */}
                <ListItemButton
                   component={Link}
-                  to="/orders"
+                  href="/orders"
                   disableRipple
                   sx={{
                      marginTop: "10px",
@@ -75,6 +76,8 @@ const MyAccountLayout = ({ children }) => {
                {/*👆  MY ORDERS   👆  */}
                {/* 👇 MY WISHLIST  👇   */}
                <ListItemButton
+                  component={Link}
+                  href="/wishlist"
                   disableRipple
                   sx={{
                      marginTop: "10px",
@@ -92,6 +95,8 @@ const MyAccountLayout = ({ children }) => {
                {/*👆  MY WISHLIST   👆  */}
                {/* 👇 MY ADDRESSES  👇   */}
                <ListItemButton
+                  component={Link}
+                  href="/addresses"
                   disableRipple
                   sx={{
                      marginTop: "10px",
@@ -109,6 +114,8 @@ const MyAccountLayout = ({ children }) => {
                {/*👆  MY ADDRESSES   👆  */}
                {/* 👇 FAQs  👇   */}
                <ListItemButton
+                  component={Link}
+                  href="/faqs"
                   disableRipple
                   sx={{
                      marginTop: "10px",
@@ -121,7 +128,7 @@ const MyAccountLayout = ({ children }) => {
                   <ListItemIcon sx={{ minWidth: "40px" }}>
                      <img src="/assets/faq.svg" alt="" />
                   </ListItemIcon>
-                  <ListItemText primary="FAQs" primaryTypographyProps={{ sx: { color: "rgba(63, 63, 63, 0.8)", fontWeight: "600", textTransform: "uppercase" } }} />
+                  <ListItemText primary="FAQs" primaryTypographyProps={{ sx: { color: "rgba(63, 63, 63, 0.8)", fontWeight: "600" } }} />
                </ListItemButton>
                {/*👆   FAQs   👆  */}
                {/* 👇 Logout  👇   */}

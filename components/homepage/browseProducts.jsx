@@ -30,7 +30,7 @@ const BrowseProducts = () => {
                paddingLeft:{xs:"0px",md:"20px",},
                marginLeft:"auto"
             }}>
-              <Pagination count={10} color="secondary" sx={{marginX:"auto"}}/>
+              <Pagination count={10} color="primary" sx={{marginX:"auto"}}/>
             </Grid>
             {/* 👆  PAGINATION 👆 */}
          </Grid>
