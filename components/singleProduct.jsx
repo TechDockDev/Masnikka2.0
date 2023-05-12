@@ -7,7 +7,6 @@ const SingleProduct = () => {
          sm={3.8}
          md={3.8}
          item
-         // border={"1px solid red"}
          height={"fit-content"}
          sx={{
             transition:"all 200ms ease-in-out",

@@ -1,0 +1,54 @@
+.wrapper {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 0px;
+    /* border: 1px solid rgb(62, 32, 152); */
+
+}
+
+.itemsWrapper {
+    /* border: 1px solid rgb(62, 32, 152); */
+}
+
+.itemsInnerWrapper {
+    /* border: 11px solid red; */
+
+}
+
+
+.itemWrapper {
+    width: fit-content;
+    /* border: 1px solid red; */
+}
+
+.rightChevronWrapper,
+.leftChevronWrapper {
+    background-color: rgba(63, 63, 63, .7);
+    height: 25px !important;
+    width: 25px !important;
+    border-radius: 50%;
+    padding: 10px;
+    /* top: 55px !important; */
+}
+
+.rightChevronWrapper {
+    top: 50% !important;
+    right: -20px !important;
+}
+
+.leftChevronWrapper {
+    top: 50% !important;
+    left: -20px !important;
+}
+
+.rightChevronWrapper svg,
+.leftChevronWrapper svg {
+    font-size: 30px;
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 50%;
+    background-color: transparent;
+
+}
