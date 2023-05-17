@@ -12,6 +12,7 @@ const signToken = (id) => {
 };
 // controller for sending creating token for future authorization
 const createSendToken = (user, res) => {
+    
    const token = signToken(user.id);
 
    const cookieOptions = {
@@ -37,19 +38,20 @@ export default async function handler(req, res) {
 
    if (req.method === "POST") {
       try {
-         let user = await User.findOne( {"$or" : [{email:req.body.email}, {phoneNumber:req.body.phoneNumber }]});        
+         const { email, password } = req.body;
 
-         if(! user){
-            const hash = await bcrypt.hash(req.body.password, 10);
-            user = await User.create({ ...req.body, password: hash });
-            createSendToken(user, res);
+         let user = await User.findOne({ email }).select("+password");
+
+         if (user) {
+            const checkPassword = await bcrypt.compare(password, user.password);            
+            if (checkPassword) {
+               createSendToken(user, res);
+            } else {
+               res.status(400).json({ status: "error", message: "Credentials are incorrect" });
+            }
          } else {
-            res.status(409).json({
-               status: "conflict",
-               message: "User already exist",
-            });      
+            res.status(404).json({ status: "error", message: "User not found" });
          }
-         
       } catch (error) {
          res.status(500).json({ status: "error", message: "Internal Server Error" });
       }
@@ -59,3 +61,4 @@ export default async function handler(req, res) {
       });
    }
 }
+

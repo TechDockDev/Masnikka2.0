@@ -25,6 +25,8 @@ const InputComponent = ({ name, type, placeholder, onChange, value }) => {
       "&::placeholder": {
          color: "white",
       },
+      
+
    };
    const styles2 = {
       // border: "1px solid red",
@@ -36,7 +38,13 @@ const InputComponent = ({ name, type, placeholder, onChange, value }) => {
       <>
          {type === "password" ? (
             <>
-               <Box position={"relative"}>
+               <Box position={"relative"} sx={{
+                  "& input:-internal-autofill-selected": {
+                     color: "white",
+                  bgcolor: "transparent",
+            
+                  },
+               }}>
                   <Box mt={2} component={"input"} type={showPassword ? "text" : "password"} name={name} value={value} onChange={onChange} sx={styles} placeholder={placeholder}  required/>
                   {showPassword ? (
                      <IconButton onClick={toggleViewPassword} sx={styles2}>

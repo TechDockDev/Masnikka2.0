@@ -3,11 +3,16 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "./theme";
 import "@fontsource/oswald";
 import "@fontsource/roboto";
+import { AppProvider } from "@/context/AppContext";
+
 
 export default function App({ Component, pageProps }) {
+
    return (
       <ThemeProvider theme={theme}>
-         <Component {...pageProps} />
+         <AppProvider>
+            <Component {...pageProps} />
+         </AppProvider>
       </ThemeProvider>
    );
 }

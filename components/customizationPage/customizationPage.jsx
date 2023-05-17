@@ -11,7 +11,7 @@ import ShapesToolbar from "./shapesToolbar";
 const CustomizationPage = () => {
    const [prImg, setPrImg] = useState("");
    const { editor, onReady } = useFabricJSEditor();
-   const [shapesInterfcae, setShapesInterfcae] = useState(false);
+   const [shapesInterface, setShapesInterface] = useState(false);
 
    //  ===👇 handle font select👇
    const handleFontChange = (e) => {
@@ -168,7 +168,7 @@ const CustomizationPage = () => {
    // ===👆 ADD IMAGE function👆
    //  ===👇 ADD SHAPE functions👇
    const addShape = (e) => {
-      setShapesInterfcae(true);
+      setShapesInterface(true);
    };
    // =========================================
    // =========================================
@@ -439,8 +439,8 @@ const CustomizationPage = () => {
                   <TextToolBar clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject} bold={bold} italic={italic} underline={underline} strike={strike} changeColor={changeColor} handleFontChange={handleFontChange} />
                ) : editor?.canvas?.getActiveObject()?.type === "image" ? (
                   <ImgToolbar clone={clone} toggleLayer={toggleLayer} flipX={flipX} flipY={flipY} removeSelectedObject={removeSelectedObject} />
-               ) : shapesInterfcae ? (
-                  <ShapesToolbar addRectangle={addRectangle} addCircle={addCircle} addTriangle={addTriangle} addStar={addStar} addHexagram={addHexagram} addHeptagram={addHeptagram} addLine={addLine} addPentagone ={addPentagone} addHexagone={addHexagone} addHeptagone={addHeptagone} addOctagone={addOctagone} addNonagone={addNonagone} addDecagone={addDecagone} changeColor={changeColor}removeSelectedObject={removeSelectedObject} clone={clone} setShapesInterfcae={setShapesInterfcae} />
+               ) : shapesInterface ? (
+                  <ShapesToolbar addRectangle={addRectangle} addCircle={addCircle} addTriangle={addTriangle} addStar={addStar} addHexagram={addHexagram} addHeptagram={addHeptagram} addLine={addLine} addPentagone ={addPentagone} addHexagone={addHexagone} addHeptagone={addHeptagone} addOctagone={addOctagone} addNonagone={addNonagone} addDecagone={addDecagone} changeColor={changeColor}removeSelectedObject={removeSelectedObject} clone={clone} setShapesInterface={setShapesInterface} />
                ) : (
                   <BottomToolbar addText={addText} addImage={addImage} addShape={addShape} />
                )}

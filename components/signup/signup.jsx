@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import InputComponent from "../login/inputComponent";
 import { MuiTelInput } from "mui-tel-input";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "@/context/AppContext";
 
-const Signup = () => {
-   const [formData, setFormData] = useState({ username: "", email: "", mobile: "", password: "", confirmPassword: "" });
-   const [mobile, setMobile] = useState("");
+const Signup = ({toggleModal}) => {
+   const {snackbar} = useContext(AppContext)
+
+   const [formData, setFormData] = useState({ userName: "", email: "", mobile: "", password: "", confirmPassword: "" });
+   const [phoneNumber, setMobile] = useState("");
 
    // =========================
 
@@ -14,21 +18,26 @@ const Signup = () => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
    // =========================
-   const handleMobileChnage = (newValue, info) => {
+   const handleMobileChange = (newValue, info) => {
       setMobile(newValue);
    };
-   console.log(mobile);
    // =========================
 
    const signupHandler = async (e) => {
       e.preventDefault();
-      let res = await axios.post("api/user/auth/signup", {
-         username:formData.username,
-         email:formData.email,
-         mobile:mobile,
-         password:formData.password,
-      });
-      console.log(res)
+      try {
+         let res = await axios.post("api/user/auth/signup", {
+            userName: formData.userName,
+            email: formData.email,
+            phoneNumber: phoneNumber,
+            password: formData.password,
+         });
+         snackbar(res.data.message, res.data.status);
+         toggleModal();
+      } catch (error) {
+         snackbar("Something went wrong", "error");
+         toggleModal();
+      }
    };
    return (
       /* 👇 Form container 👇 */
@@ -41,7 +50,7 @@ const Signup = () => {
             mt: 3,
          }}>
          {/* 👇User Name 👇 */}
-         <InputComponent type={"text"} placeholder={"User Name"} name={"username"} value={formData.username} onChange={onChangeHandler} />
+         <InputComponent type={"text"} placeholder={"User Name"} name={"userName"} value={formData.userName} onChange={onChangeHandler} />
          {/*👆 User Name👆 */}
          {/* 👇 E-MAIL 👇 */}
          <InputComponent type={"email"} placeholder={"Email"} name={"email"} value={formData.email} onChange={onChangeHandler} />
@@ -49,10 +58,12 @@ const Signup = () => {
          {/* 👇 PHONE 👇 */}
 
          <MuiTelInput
-            value={mobile}
-            name="mobile"
-            onChange={handleMobileChnage}
+            value={phoneNumber}
+            name="phoneNumber"
+            onChange={handleMobileChange}
             defaultCountry="ZA"
+            forceCallingCode
+            disableFormatting
             sx={{
                mt: 2,
                width: "100%",
@@ -64,6 +75,9 @@ const Signup = () => {
                "& .MuiInputBase-input": {
                   color: "white",
                },
+               "& .MuiTypography-root ":{
+                  color:"white"
+               }
             }}
          />
 

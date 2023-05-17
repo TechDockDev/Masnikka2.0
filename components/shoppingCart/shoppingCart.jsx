@@ -37,8 +37,7 @@ const ShoppingCart = () => {
                <SingleCartItem />
                <SingleCartItem />
             </Grid>
-            <Grid item xs={12} md={3.8} sx={{ border: "1px solid grey", borderRadius: "8px",boxSizing:"border-box", padding:"20px" , bgcolor:" rgba(240, 242, 242, 0.7)"}}>
-
+            <Grid item xs={12} md={3.8} sx={{boxSizing:"border-box", }}>
               <PriceDetails/>
             </Grid>
          </Grid>

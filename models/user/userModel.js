@@ -16,10 +16,18 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    unique:true
+  },
+  password: {
+    type: String,
+    select:false,
+    require:true,
+    min: [8, 'Password must be 8 characters long'],
   },
   phoneNumber: {
     type: String,
     unique: true,
+    require:true,
   },
   orders: [
     {
@@ -45,22 +53,10 @@ const userSchema = new Schema({
       type: String,
     },
   ],
-  // location: {
-  //   type: {
-  //     type: String, // Don't do `{ location: { type: String } }`
-  //     enum: ["Point"], // 'location.type' must be 'Point'
-  //     default: "Point",
-  //     required: true,
-  //   },
-  //   coordinates: {
-  //     type: [Number],
-  //     // index: "2dsphere",
-  //     required: true,
-  //   },
-  // },
+ 
 });
 // userSchema.index({ location: "2dsphere" });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model.User || mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;

@@ -3,11 +3,16 @@ import { Box, Button, Divider, Grid, IconButton, Rating, Stack, Typography } fro
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ClearIcon from "@mui/icons-material/Clear";
-const SingleCartItem = () => {
+const CartItem = () => {
    return (
-      <Grid container boxSizing={"border-box"} sx={{
-        borderBottom:"1px solid #DFDFDF", mb:2
-      }}>
+      <Grid
+         container
+         boxSizing={"border-box"}
+         sx={{
+            borderBottom: "1px solid #DFDFDF",
+            pb: 3,
+            mb:2
+         }}>
          {/* 👇 Product image  👇   */}
          <Grid item xs={12} sm={3} md={3} sx={{ boxSizing: "border-box", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", order: 1 }}>
             <Box component="img" src="/assets/product.png" sx={{ height: "170px", width: "auto" }} />
@@ -15,7 +20,7 @@ const SingleCartItem = () => {
          {/*👆  Product image  👆  */}
 
          {/* 👇 product info 👇   */}
-         <Grid item xs={12} sm={6} md={6} sx={{ boxSizing: "border-box", paddingX: { xs: "20px", sm: "40px" }, order: { xs: 2, sm: 2 } }}>
+         <Grid item xs={12} sm={8} md={8} sx={{ boxSizing: "border-box", paddingX: { xs: "20px", sm: "40px" }, order: { xs: 2, sm: 2 } }}>
             <Stack
                sx={{
                   display: { xs: "flex", sm: "block" },
@@ -43,7 +48,7 @@ const SingleCartItem = () => {
                   </Typography>
                </Box>
                {/*👆  product rating 👆  */}
-               <Stack direction={"row"} alignItems={"center"} mt={1}>
+               <Stack direction={"row"} alignItems={"center"} mt={1} color={"#828282"}>
                   {/* 👇 select color👇   */}
                   <Stack direction={"row"} alignItems={"center"}>
                      <Typography sx={{ fontSize: "16px", width: "fit-content", fontFamily: "Oswald", textTransform: "uppercase" }}>Color:</Typography>
@@ -56,8 +61,14 @@ const SingleCartItem = () => {
                      <Typography sx={{ fontSize: "16px", width: "fit-content", fontFamily: "Oswald", textTransform: "uppercase", ml: 2 }}>6</Typography>
                   </Stack>
                   {/*👆 select size👆  */}
+                  {/* 👇 qty👇   */}
+                  <Stack direction={"row"} alignItems={"center"} ml={2}>
+                     <Typography sx={{ fontSize: "16px", width: "fit-content", fontFamily: "Oswald", textTransform: "uppercase" }}>QTY:</Typography>
+                     <Typography sx={{ fontSize: "16px", width: "fit-content", fontFamily: "Oswald", textTransform: "uppercase", ml: 2 }}>1</Typography>
+                  </Stack>
+                  {/*👆 qty👆  */}
                </Stack>
-               
+
                {/* 👇 price👇   */}
                <Box display={"flex"} mt={1}>
                   <Box display="flex" justifyContent="center" alignItems="center">
@@ -71,61 +82,11 @@ const SingleCartItem = () => {
                   </Box>
                </Box>
                {/*👆 price👆  */}
-
-               {/* 👇 Remove from cart button👇   */}
-               <Button disableRipple sx={{ fontSize: "16px", fontWeight: "600", color: "#0F6DB1", padding: "0", marginY: "10px" }}>
-                  <ClearIcon sx={{ mr: 1 }} />
-                  Remove
-               </Button>
-
-               {/*👆  Remove from cart button👆  */}
             </Stack>
          </Grid>
          {/*👆  product info 👆  */}
-         {/* 👇 Total Price 👇   */}
-         <Grid item xs={12} sm={3} md={3} sx={{ boxSizing: "border-box", paddingX: "20px", display: "flex", alignItems: "center", justifyContent: "center", order: 3, flexDirection: { xs: "column", sm: "column" },paddingBottom:"20px" }}>
-            <Typography fontFamily={"Oswald"} fontSize="20px" mr={1} fontWeight={"bold"}>
-               Total Price
-            </Typography>
-            <Typography fontFamily={"Oswald"} fontSize="20px" mr={1} fontWeight={"bold"}>
-               $120
-            </Typography>
-            {/* 👇 Quantity 👇   */}
-            <Box
-                  sx={{
-                     border: "1px solid #C4C4C4",
-                     borderRadius: "4px",
-                     display: "flex",
-                     alignItems: "center",
-                     justifyContent: "space-between",
-                     mt: 1,
-                     width: "140px",
-                  }}>
-                  <IconButton
-                     sx={{
-                        color: "#c4c4c4",
-                        "&:hover": {
-                           color: "black",
-                        },
-                     }}>
-                     <AddIcon />
-                  </IconButton>
-                  <Typography>quantity</Typography>
-                  <IconButton
-                     sx={{
-                        color: "#c4c4c4",
-                        "&:hover": {
-                           color: "black",
-                        },
-                     }}>
-                     <RemoveIcon />
-                  </IconButton>
-               </Box>
-               {/*👆  Quantity 👆  */}
-         </Grid>
-         {/*👆  Total Price 👆  */}
       </Grid>
    );
 };
 
-export default SingleCartItem;
+export default CartItem;
