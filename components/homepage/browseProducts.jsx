@@ -1,10 +1,12 @@
+"useServer"
 import { Grid, Stack,Pagination } from "@mui/material";
 import React from "react";
 import FiltersSidebar from "./filtersSidebar";
 import SingleProduct from "../singleProduct";
 
-const BrowseProducts = () => {
-   const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const BrowseProducts = ( {products}) => {
+   console.log('product-->', products);
+   
    return (
       <Stack mt={3} >
          <Grid container >
@@ -18,8 +20,8 @@ const BrowseProducts = () => {
                paddingLeft:{xs:"0px",md:"20px",}
              
             }}>
-               {products.map((product) => {
-                  return <SingleProduct key={product} />;
+               {products.map((product, index) => {
+                  return <SingleProduct key={index} product={product}/>;
                })}
             </Grid>
             {/* 👆  PRODUCTS container 👆 */}
@@ -39,3 +41,4 @@ const BrowseProducts = () => {
 };
 
 export default BrowseProducts;
+

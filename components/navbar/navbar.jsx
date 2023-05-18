@@ -1,4 +1,4 @@
-import { AppBar, Backdrop, Box, Grid, IconButton, List } from "@mui/material";
+import { AppBar, Backdrop, Box, Grid, IconButton, List, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import NavMenuItem from "./navMenuItem";
@@ -10,12 +10,13 @@ import Signup from "../signup/signup";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { AppContext } from "@/context/AppContext";
+
 const Navbar = () => {
    const [openLoginModal, setOpenLoginModal] = useState(false);
    const [openSignupModal, setOpenSignupModal] = useState(false);
    const [openMenu, setOpenMenu] = useState(false);
    const { userData } = useContext(AppContext);
-
+   const matchesSM = useMediaQuery('(max-width:600px)');
    const toggleMenu = () => {
       setOpenMenu(!openMenu);
    };
@@ -29,7 +30,7 @@ const Navbar = () => {
       setOpenSignupModal(!openSignupModal);
    };
    return (
-      <AppBar sx={{ maxWidth: "xl", left: "auto", right: "auto", paddingX: "15px", boxSizing: "border-box", height: "80px" }}>
+      <AppBar sx={{ maxWidth: "xl", left: "auto", right: "auto", paddingX: "15px", boxSizing: "border-box", height: {xs:"60px",sm:"80px"} }}>
          <Grid
             container
             sx={{
@@ -60,15 +61,16 @@ const Navbar = () => {
                   }}>
                   <Box
                      component={"img"}
-                     src="/assets/masnikka_logo.png"
+                     src={ matchesSM ?"/assets/LogoSmall.svg" : "/assets/masnikka_logo.png"}
                      sx={{
-                        height: "60px",
+                        height:{xs:"35px",sm: "60px"},
                         display: "block",
                      }}
                   />
                </Link>
             </Grid>
             {/*👆 grid for topbar MASNIKKA LOGO 👆  */}
+            {/* ================================================== */}
             {/* 👇 grid for topbar right side navlinks and search bar👇   */}
             <Grid
                item
@@ -117,6 +119,8 @@ const Navbar = () => {
                {/*👆 CART BUTTON 👆  */}
             </Grid>
             {/*👆 grid for topbar right side navlinks and search bar 👆  */}
+            {/* ================================================== */}
+
             {/* 👇 grid for small screen menu👇   */}
             <Grid
                item
@@ -134,7 +138,7 @@ const Navbar = () => {
                   <AppBarSearch />
                   {/*👆 SEARCH BAR👆  */}
                   {/* 👇  CART BUTTON👇   */}
-                  <IconButton sx={{ color: "white" }}>
+                  <IconButton sx={{ color: "white", paddingRight:"0px" }}>
                      <ShoppingBagOutlinedIcon />
                   </IconButton>
                   {/*👆 CART BUTTON 👆  */}

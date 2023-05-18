@@ -7,6 +7,6 @@ const AttributesSchema = new Schema({
   },
 });
 
-const Attribute = mongoose.model("Attribute", AttributesSchema);
+module.exports =  mongoose.model.Attribute|| mongoose.model("Attribute", AttributesSchema);
 
-module.exports = Attribute;
+

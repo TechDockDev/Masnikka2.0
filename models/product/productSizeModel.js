@@ -27,6 +27,5 @@ const ProductSizeSchema = new Schema({
   },
 });
 
-const ProductSize = mongoose.model("ProductSize", ProductSizeSchema);
+module.exports= mongoose.model.ProductSize||mongoose.model("ProductSize", ProductSizeSchema);
 
-module.exports = ProductSize;

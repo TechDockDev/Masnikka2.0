@@ -6,13 +6,12 @@ const AppBarSearch = () => {
   return (
     <ListItem disableGutters dense >
     <Input
-       fullWidth
        type="text"
        disableUnderline={true}
-       sx={{ bgcolor: "white", width: "200px", borderRadius: "5px", paddingX:"4px",}}
+       sx={{ bgcolor: "white", width:{xs:"150px" ,sm:"200px"}, borderRadius: "5px", paddingX:"4px",}}
        startAdornment={
-          <InputAdornment sx={{ bgcolor: "white" }}  position="end">
-             <IconButton>
+          <InputAdornment sx={{ bgcolor: "white" }}  position="start">
+             <IconButton sx={{padding:"0px 0px 0px 5px"}}>
                 <SearchIcon />
              </IconButton>
           </InputAdornment>

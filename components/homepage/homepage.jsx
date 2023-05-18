@@ -5,12 +5,12 @@ import BrandsCarousel from "./brandsCarousel";
 import BrowseProducts from "./browseProducts";
 import MostPopular from "./mostPopular";
 
-const Homepage = () => {
+const Homepage = ({products}) => {
    return (
       <Stack paddingX="15px" position={"relative"}>
          <Banner />
          <BrandsCarousel/>
-         <BrowseProducts/>
+         <BrowseProducts products={products}/>
          <MostPopular/>
       </Stack>
    );
