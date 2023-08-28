@@ -5,22 +5,26 @@ const addressSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: "User",
+    required: true,
   },
-  name: { type: String },
+  name: { type: String, required: true },
   phoneNumber: {
-    type: String,
+    type: Number,
+    min: [10, "Value must be at least 10"],
+    required: true,
   },
   houseNo: {
     type: String,
   },
   address: { type: String },
-  city: { type: String },
-  state: { type: String },
-  country: { type: String },
-  pinCode: { type: String },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  country: { type: String, required: true },
+  pinCode: { type: String, required: true },
   defaultAddress: { type: Boolean, default: false },
 });
 
-const Address = mongoose.model("Address", addressSchema);
+const Address =
+  mongoose.models?.Address || mongoose.model("Address", addressSchema);
 
 module.exports = Address;

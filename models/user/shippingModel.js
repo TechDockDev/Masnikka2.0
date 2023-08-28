@@ -20,6 +20,6 @@ const ShippingSchema = new Schema({
   },
 });
 
-const Shipping = mongoose.model("Shipping", ShippingSchema);
+const Shipping = mongoose.models.Shipping || mongoose.model("Shipping", ShippingSchema);
 
 module.exports = Shipping;

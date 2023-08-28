@@ -58,8 +58,13 @@ const CustomizeSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  designCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
-const Customize = mongoose.model("Customize", CustomizeSchema);
+const Customize =
+  mongoose.models.Customize || mongoose.model("Customize", CustomizeSchema);
 
 module.exports = Customize;

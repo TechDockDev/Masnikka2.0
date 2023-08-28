@@ -18,11 +18,11 @@ const ProductRatings = () => {
             </Typography>
          </Box>
          <Box width={{xs:"90%",sm:"60%"}} mt={2}>
-            <RatingsBar star={"5"} value={"80"} reviewCount={"6"} color={"#48A033"}/>
-            <RatingsBar star={"4"} value={"40"} reviewCount={"5"} color={"#48A033"}/>
-            <RatingsBar star={"3"} value={"30"} reviewCount={"3"} color={"#48A033"}/>
-            <RatingsBar star={"2"} value={"20"} reviewCount={"2"} color={"#FFC32B"}/>
-            <RatingsBar star={"1"} value={"10"} reviewCount={"1"} color={"#FF3535"}/>
+            <RatingsBar star={"5"} value={80} reviewCount={"6"} color={"#48A033"}/>
+            <RatingsBar star={"4"} value={40} reviewCount={"5"} color={"#48A033"}/>
+            <RatingsBar star={"3"} value={30} reviewCount={"3"} color={"#48A033"}/>
+            <RatingsBar star={"2"} value={20} reviewCount={"2"} color={"#FFC32B"}/>
+            <RatingsBar star={"1"} value={10} reviewCount={"1"} color={"#FF3535"}/>
          </Box>
       </Stack>
    );

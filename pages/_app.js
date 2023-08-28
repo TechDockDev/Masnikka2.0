@@ -1,3 +1,4 @@
+'use client';
 import "@/styles/globals.css";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme";

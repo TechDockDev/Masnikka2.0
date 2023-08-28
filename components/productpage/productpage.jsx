@@ -6,16 +6,14 @@ import ProductRatings from "./productRatings";
 import ProductReviews from "./productReviews";
 import MostPopular from "../homepage/mostPopular";
 
-const Productpage = () => {
-   return (
-      <Stack paddingX="15px" position={"relative"}>
-         <ProductView />
-         <ProductDescription/>
-         <ProductRatings/>
-         <ProductReviews/>
-         <MostPopular/>
-      </Stack>
-   );
-};
-
-export default Productpage;
+export default function Productpage({ product, customize }) {
+  return (
+    <Stack paddingX="15px" position={"relative"}>
+      <ProductView product={product} customize={customize} />
+      <ProductDescription ProductDescription={product?.description} />
+      {/* <ProductRatings />
+      <ProductReviews />
+      <MostPopular /> */}
+    </Stack>
+  );
+}

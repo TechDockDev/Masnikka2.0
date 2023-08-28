@@ -40,4 +40,4 @@ const ProductColorSchema = new Schema({
    },
 });
 
-module.exports = mongoose.model.ProductColor || mongoose.model("ProductColor", ProductColorSchema);
+module.exports = mongoose.models?.ProductColor || mongoose.model("ProductColor", ProductColorSchema);

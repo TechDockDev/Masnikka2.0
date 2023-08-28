@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       try {
          let user = await User.findOne( {"$or" : [{email:req.body.email}, {phoneNumber:req.body.phoneNumber }]});        
 
-         if(! user){
+         if(!user){
             const hash = await bcrypt.hash(req.body.password, 10);
             user = await User.create({ ...req.body, password: hash });
             createSendToken(user, res);

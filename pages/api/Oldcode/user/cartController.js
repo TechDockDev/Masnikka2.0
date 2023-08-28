@@ -25,7 +25,6 @@ exports.addProductToCart = async (req, res) => {
     } else {
       const cart = await Cart.create({
         productSize: productSizeId,
-
         quantity,
         user: req.user._id,
       });

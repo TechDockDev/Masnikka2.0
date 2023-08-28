@@ -1,6 +1,5 @@
-const mongoose = require("mongoose"),
-  Schema = mongoose.Schema;
-
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const userSchema = new Schema({
   profilePhoto: {
     type: String,
@@ -16,28 +15,27 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    unique:true
+    unique: true,
   },
   password: {
     type: String,
-    select:false,
-    require:true,
-    min: [8, 'Password must be 8 characters long'],
+    select: false,
+    require: true,
+    min: [8, "Password must be 8 characters long"],
   },
   phoneNumber: {
     type: String,
     unique: true,
-    require:true,
+    require: true,
   },
   orders: [
     {
       type: Schema.ObjectId,
-      ref: 'Orders'
+      ref: "Orders",
     },
   ],
   address: [
     {
-      // type: String,s
       type: Schema.ObjectId,
       ref: "Address",
     },
@@ -53,10 +51,9 @@ const userSchema = new Schema({
       type: String,
     },
   ],
- 
 });
 // userSchema.index({ location: "2dsphere" });
 
-const User = mongoose.model.User || mongoose.model("User", userSchema);
+const User = mongoose.models?.User || mongoose.model("User", userSchema);
 
 export default User;

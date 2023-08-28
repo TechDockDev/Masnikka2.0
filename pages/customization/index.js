@@ -1,14 +1,29 @@
+import CustomizationPage from "@/components/customizationPage/customizationPage";
+import Layout from "@/components/layout";
+import dbConnect from "@/lib/dbConnect";
+import productColorModel from "@/models/product/productColorModel";
+import React from "react";
 
-import CustomizationPage from '@/components/customizationPage/customizationPage'
-import Layout from '@/components/layout'
-import React from 'react'
-
-const index = () => {
+const index = ({ product }) => {
   return (
-   <Layout>
-    <CustomizationPage/>
-   </Layout>
-  )
-}
+    <Layout>
+      <CustomizationPage product={product} />
+    </Layout>
+  );
+};
 
-export default index
+export default index;
+
+export async function getServerSideProps(context) {
+  await dbConnect();
+  // console.log(context.query);
+  // if (context.query.) {
+    
+  // }
+  const product = await productColorModel.findById(context.query.product);
+  return {
+    props: {
+      product: JSON.stringify(product),
+    },
+  };
+}

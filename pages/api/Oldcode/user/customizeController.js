@@ -121,17 +121,28 @@ exports.updateCustomize = async (req, res) => {
   try {
     const { customizeData, productColor } = req.body;
     console.log(customizeData);
-    const customize = await Customize.findByIdAndUpdate(customizeData._id, {
-      frontJson: customizeData.frontJson,
-      backJson: customizeData.backJson,
-      leftJson: customizeData.leftJson,
-      rightJson: customizeData.rightJson,
-      productColor: productColor,
-      updated: true,
+    const backCstmztn = JSON.parse(customizeData.backJson);
+    const leftCstmztn = JSON.parse(customizeData.leftJson);
+    const rightCstmztn = JSON.parse(customizeData.rightJson);
+    const frontCstmztn = JSON.parse(customizeData.frontJson);
+    const totalCustomization =
+      backCstmztn.objects.length +
+      leftCstmztn.objects.length +
+      rightCstmztn.objects.length +
+      frontCstmztn.objects.length;
+    console.log("count " + totalCustomization);
+    designCount = totalCustomization;
+    const customize = await Customize.create({
+      frontJson,
+      backJson,
+      leftJson,
+      rightJson,
+      productColor,
+      designCount,
     });
     res.status(200).json({
       status: "success",
-      message: "success",
+      message: "Design has been created successfully",
       customize,
     });
   } catch (error) {
