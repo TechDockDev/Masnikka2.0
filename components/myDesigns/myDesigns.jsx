@@ -8,11 +8,7 @@ const MyDesigns = ({ customize, productCount }) => {
   return (
     <Stack paddingX="15px" position={"relative"}>
       <Grid
-        //  item
         container
-        //  xs={12}
-        //  md={9}
-        //  lg={10}
         display="flex"
         justifyContent={{ xs: "center", sm: "space-between" }}
         sx={{
@@ -35,7 +31,7 @@ const MyDesigns = ({ customize, productCount }) => {
           <Divider />
         </Grid>
         {JSON.parse(customize).map((product) => (
-          <SingleDesign product={product} />
+          <SingleDesign product={product} key={product._id} />
         ))}
       </Grid>
       <Pagination
