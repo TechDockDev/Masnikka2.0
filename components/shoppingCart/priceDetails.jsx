@@ -34,7 +34,7 @@ const PriceDetails = ({ cartData, addressId }) => {
   myData["cancel_url"] = "http://localhost:3000";
   // Transaction details
   myData["m_payment_id"] = userId;
-  myData["amount"] = cartData.totalPrice.toString();
+  myData["amount"] = cartData?.totalPrice.toString();
   myData["item_name"] = `${cartData?.products.length} Items`;
 
   // Generate signature
@@ -43,7 +43,7 @@ const PriceDetails = ({ cartData, addressId }) => {
     if (myData.hasOwnProperty(key)) {
       value = myData[key];
       if (value !== "") {
-        htmlForm += `<input name="${key}" type="hidden" value="${value.trim()}" />`;
+        htmlForm += `<input name="${key}" type="hidden" value="${value?.trim()}" />`;
       }
     }
   }

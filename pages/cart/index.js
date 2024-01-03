@@ -3,12 +3,11 @@ import ShoppingCart from "@/components/shoppingCart/shoppingCart";
 import React from "react";
 
 const index = () => {
-   return (
-      <Layout>
-         <ShoppingCart />
-      </Layout>
-   );
+  return (
+    <Layout>
+      <ShoppingCart />
+    </Layout>
+  );
 };
 
 export default index;
-

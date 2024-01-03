@@ -130,7 +130,7 @@ const Navbar = () => {
             {/* 👇 SEARCH BAR 👇   */}
             <AppBarSearch />
             {/*👆 SEARCH BAR👆  */}
-            {Object.keys(userData).length === 0 ? (
+            {JSON.stringify(userData) === "{}" ? (
               <>
                 {/* 👇 LOG IN 👇   */}
                 <NavMenuItem handler={toggleLoginModal} linkText={"Log In"} />
@@ -224,7 +224,7 @@ const Navbar = () => {
             />
 
             {/*👆 MY DESIGNS 👆  */}
-            {Object.keys(userData).length === 0 ? (
+            {JSON.stringify(userData) === "{}" ? (
               <>
                 {/* 👇 LOG IN 👇   */}
                 <NavMenuItem

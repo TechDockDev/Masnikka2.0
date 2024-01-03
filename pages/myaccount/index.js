@@ -1,5 +1,5 @@
 import MyAccountLayout from "@/components/myAccountLayout";
-import Profile from "@/components/profile/profile";
+import Profile from "@/components/shoppingCart/profile/profile.jsx";
 import React from "react";
 
 const index = () => {
@@ -11,4 +11,3 @@ const index = () => {
 };
 
 export default index;
-
