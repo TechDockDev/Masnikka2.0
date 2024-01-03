@@ -19,7 +19,6 @@ export default function Home({ products, brands, categories, totalPages }) {
       }
     }
   }, []);
-
   return (
     <Layout>
       <Homepage
@@ -62,9 +61,10 @@ export async function getServerSideProps(context) {
   if (targetCategoryNames.length > 0) {
     filteredProducts = filteredProducts.filter((product) => {
       const categoryName = product.categoryId ? product.categoryId.name : "";
-      return targetCategoryNames.includes(categoryName);
+      return targetCategoryNames.includes(categoryName.toLowerCase());
     });
   }
+
   if (sizes.length > 0) {
     filteredProducts = filteredProducts.filter((product) => {
       const productSizes = product.productColor.map(
@@ -80,7 +80,7 @@ export async function getServerSideProps(context) {
       return lowerLimit < price && price < upperLimit;
     });
   }
-  const totalPages = Math.round(filteredProducts.length / 12);
+  const totalPages = Math.ceil(filteredProducts.length / 12);
   page === 0
     ? (filteredProducts = filteredProducts.slice(0, 12))
     : (filteredProducts = filteredProducts.slice((page - 1) * 12, page * 12));

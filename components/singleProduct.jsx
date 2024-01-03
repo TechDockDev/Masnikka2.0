@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Box, Stack, Typography, Rating } from "@mui/material";
 import { useRouter } from "next/router";
+import S3Image from "@/lib/getImage";
 // **********************
 const SingleProduct = ({ product }) => {
   const router = useRouter();
@@ -40,11 +41,9 @@ const SingleProduct = ({ product }) => {
     >
       <Box>
         {image && (
-          <Box
-            component={"img"}
-            src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${image}`}
-            width={"100%"}
-            borderRadius={"8px"}
+          <S3Image
+            imgKey={image}
+            style={{ width: "100%", borderRadius: "8px" }}
           />
         )}
       </Box>

@@ -20,10 +20,22 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import S3Image from "@/lib/getImage";
+
+const productImgStyle = {
+  height: { xs: "70px" },
+  marginX: { xs: "10px", md: "0px" },
+  marginY: { xs: "0", md: "10px" },
+  cursor: "pointer",
+  "&:hover": {
+    scale: "0.98",
+    border: "1px solid black",
+  },
+};
 
 const ProductView = ({ product, customize }) => {
   const [selectedImage, setSelectedImage] = useState(
-    `https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[0].productPhotos.productImg}`
+    product.productColor[0]?.productPhotos?.productImg
   );
   const [colorIndex, setColorIndex] = useState(0);
   const [sizeIndex, setSizeIndex] = useState(0);
@@ -91,7 +103,7 @@ const ProductView = ({ product, customize }) => {
       var canvas = new fabric.Canvas("yourCanvasElement");
       canvas.loadFromJSON(JSON.parse(customize)[json], function () {
         canvas.setHeight(
-          canvas.backgroundImage.height * canvas.backgroundImage.scaleY ||
+          canvas.backgroundImage?.height * canvas.backgroundImage.scaleY ||
             canvas.height
         );
         canvas.setWidth(
@@ -135,112 +147,34 @@ const ProductView = ({ product, customize }) => {
             // border: "1px solid red",
           }}
         >
-          <Box
-            onClick={(e) => {
-              setSelectedImage(e.target.src);
-            }}
-            component="img"
-            alt="Product Image"
-            src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos.productImg}`}
-            sx={{
-              height: { xs: "70px" },
-              marginX: { xs: "10px", md: "0px" },
-              marginY: { xs: "0", md: "10px" },
-              cursor: "pointer",
-              "&:hover": {
-                scale: "0.98",
-                border: "1px solid black",
-              },
-            }}
+          <S3Image
+            imgKey={product.productColor[colorIndex].productPhotos?.productImg}
+            setSelectedImage={setSelectedImage}
+            style={productImgStyle}
           />
-          <Box
-            onClick={(e) => {
-              setSelectedImage(e.target.src);
-            }}
-            component="img"
-            alt="front Image"
-            src={
-              searchParams.has("canvas")
-                ? img.frontImg
-                : `https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos.frontImg}`
-            }
-            sx={{
-              height: { xs: "70px" },
-              marginX: { xs: "10px", md: "0px" },
-              marginY: { xs: "0", md: "10px" },
-              cursor: "pointer",
-              "&:hover": {
-                scale: "0.98",
-                border: "1px solid black",
-              },
-            }}
+
+          <S3Image
+            imgKey={product.productColor[colorIndex].productPhotos?.frontImg}
+            setSelectedImage={setSelectedImage}
+            style={productImgStyle}
           />
-          <Box
-            onClick={(e) => {
-              setSelectedImage(e.target.src);
-            }}
-            component="img"
-            src={
-              searchParams.has("canvas")
-                ? img.leftImg
-                : `https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos.leftImg}`
-            }
-            alt="left Image"
-            sx={{
-              height: { xs: "70px" },
-              width: { xs: "70px" },
-              marginX: { xs: "10px", md: "0px" },
-              marginY: { xs: "0", md: "10px" },
-              cursor: "pointer",
-              "&:hover": {
-                scale: "0.98",
-                border: "1px solid black",
-              },
-            }}
+
+          <S3Image
+            imgKey={product.productColor[colorIndex].productPhotos?.leftImg}
+            setSelectedImage={setSelectedImage}
+            style={productImgStyle}
           />
-          <Box
-            onClick={(e) => {
-              setSelectedImage(e.target.src);
-            }}
-            alt="Right Image"
-            component="img"
-            src={
-              searchParams.has("canvas")
-                ? img.rightImg
-                : `https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos.rightImg}`
-            }
-            sx={{
-              height: { xs: "70px" },
-              marginX: { xs: "10px", md: "0px" },
-              marginY: { xs: "0", md: "10px" },
-              cursor: "pointer",
-              "&:hover": {
-                scale: "0.98",
-                border: "1px solid black",
-              },
-            }}
+
+          <S3Image
+            imgKey={product.productColor[colorIndex].productPhotos?.rightImg}
+            setSelectedImage={setSelectedImage}
+            style={productImgStyle}
           />
-          <Box
-            onClick={(e) => {
-              setSelectedImage(e.target.src);
-            }}
-            alt="Back Image"
-            component="img"
-            src={
-              searchParams.has("canvas")
-                ? img.backImg
-                : `https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos.backImg}`
-            }
-            sx={{
-              height: { xs: "70px" },
-              marginX: { xs: "10px", md: "0px" },
-              marginY: { xs: "0", md: "10px" },
-              cursor: "pointer",
-              "&:hover": {
-                scale: "0.98",
-                border: "1px solid black",
-              },
-            }}
+
+          <S3Image
+            imgKey={product.productColor[colorIndex].productPhotos?.backImg}
+            setSelectedImage={setSelectedImage}
+            style={productImgStyle}
           />
         </Stack>
       </Grid>
@@ -254,12 +188,7 @@ const ProductView = ({ product, customize }) => {
         sx={{ boxSizing: "border-box", paddingX: "20px" }}
       >
         <Stack spacing={2}>
-          <Box
-            component="img"
-            // src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[colorIndex].productPhotos[selectedImage]}`}
-            src={selectedImage}
-            sx={{ width: { xs: "100%" } }}
-          />
+          <S3Image imgKey={selectedImage} style={{ width: { xs: "100%" } }} />
         </Stack>
       </Grid>
       {/*👆  main image  👆  */}

@@ -73,7 +73,7 @@ export default function ComboBox() {
             }}
           >
             <img
-              src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${option.productColor[0].productPhotos.thumbnailImg}`}
+              src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${option.productColor[0]?.productPhotos?.thumbnailImg}`}
               width={50}
               alt="image"
               style={{ marginRight: "10px" }}
@@ -113,4 +113,3 @@ export default function ComboBox() {
     />
   );
 }
-

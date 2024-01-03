@@ -8,7 +8,10 @@ export const config = {
 
 export async function middleware(req) {
   try {
-    if (req.nextUrl.pathname.includes("/login")) {
+    if (
+      req.nextUrl.pathname.includes("/login") ||
+      req.nextUrl.pathname.includes("/payment")
+    ) {
       return NextResponse.next();
     }
     if (!req.cookies.has("bearerToken")) {
@@ -42,33 +45,3 @@ export async function middleware(req) {
     );
   }
 }
-
-// const allowedOrigins = [
-//   "http://localhost:3000",
-//   "https://localhost:3000",
-//   "http://127.0.0.1:3000",
-//   "http://192.168.29.249:3000",
-//   "https://www.google.com",
-// ];
-// retrieve the current response
-// const res = NextResponse.next();
-// retrieve the HTTP "Origin" header
-// from the incoming request
-// const origin = req.headers.get("origin");
-// if the origin is an allowed one,
-// add it to the 'Access-Control-Allow-Origin' header
-// if (allowedOrigins.includes(origin) || !origin) {
-// res.headers.append("Access-Control-Allow-Origin", origin || "*");
-
-// // add the remaining CORS headers to the response
-// res.headers.append("Access-Control-Allow-Credentials", true);
-// res.headers.append(
-//   "Access-Control-Allow-Methods",
-//   "GET,DELETE,PATCH,POST,PUT"
-// );
-// res.headers.append(
-//   "Access-Control-Allow-Headers",
-//   "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-// );
-// res.headers.append("access-control-expose-headers", "Set-Cookie");
-// return res;
