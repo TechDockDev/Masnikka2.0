@@ -81,10 +81,10 @@ const SingleProduct = ({ product }) => {
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography fontSize="24px" mr={1} fontWeight={"bold"}>
-            ${price.toFixed(0)}
+            R{price.toFixed(0)}
           </Typography>
           <Typography mr={1} color={"grey"}>
-            <s>${product?.productColor[0]?.productSize[0]?.unitPrice}</s>
+            <s>R{product?.productColor[0]?.productSize[0]?.unitPrice}</s>
           </Typography>
           <Typography>({product?.discountPercent}% off)</Typography>
         </Box>

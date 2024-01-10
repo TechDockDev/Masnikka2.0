@@ -96,6 +96,7 @@ const ProductView = ({ product, customize }) => {
     const rightImg = await generateImage("rightJson", "rightImg");
     const leftImg = await generateImage("leftJson", "leftImg");
     setImg({ frontImg, backImg, rightImg, leftImg });
+    setSelectedImage(frontImg);
   };
 
   const generateImage = (json, image) => {
@@ -103,11 +104,11 @@ const ProductView = ({ product, customize }) => {
       var canvas = new fabric.Canvas("yourCanvasElement");
       canvas.loadFromJSON(JSON.parse(customize)[json], function () {
         canvas.setHeight(
-          canvas.backgroundImage?.height * canvas.backgroundImage.scaleY ||
+          canvas.backgroundImage?.height * canvas.backgroundImage?.scaleY ||
             canvas.height
         );
         canvas.setWidth(
-          canvas.backgroundImage.width * canvas.backgroundImage.scaleX ||
+          canvas.backgroundImage?.width * canvas.backgroundImage?.scaleX ||
             canvas.width
         );
         // Convert canvas to data URL
@@ -115,6 +116,7 @@ const ProductView = ({ product, customize }) => {
           format: "png",
           quality: 1,
         });
+
         resolve(dataURL); // Resolve the Promise with the dataURL
       });
     });
@@ -126,7 +128,6 @@ const ProductView = ({ product, customize }) => {
       getCanvasImages();
     }
   }, []);
-
   return (
     <Grid
       container
@@ -147,35 +148,52 @@ const ProductView = ({ product, customize }) => {
             // border: "1px solid red",
           }}
         >
-          <S3Image
-            imgKey={product.productColor[colorIndex].productPhotos?.productImg}
-            setSelectedImage={setSelectedImage}
-            style={productImgStyle}
-          />
-
-          <S3Image
-            imgKey={product.productColor[colorIndex].productPhotos?.frontImg}
-            setSelectedImage={setSelectedImage}
-            style={productImgStyle}
-          />
-
-          <S3Image
-            imgKey={product.productColor[colorIndex].productPhotos?.leftImg}
-            setSelectedImage={setSelectedImage}
-            style={productImgStyle}
-          />
-
-          <S3Image
-            imgKey={product.productColor[colorIndex].productPhotos?.rightImg}
-            setSelectedImage={setSelectedImage}
-            style={productImgStyle}
-          />
-
-          <S3Image
-            imgKey={product.productColor[colorIndex].productPhotos?.backImg}
-            setSelectedImage={setSelectedImage}
-            style={productImgStyle}
-          />
+          {searchParams.has("canvas") ? (
+            Object.entries(img).map(([key, value]) => (
+              <Box
+                key={key}
+                component={"img"}
+                src={value}
+                alt="customize"
+                sx={productImgStyle}
+                onClick={(e) => setSelectedImage(value)}
+              />
+            ))
+          ) : (
+            <>
+              <S3Image
+                imgKey={
+                  product.productColor[colorIndex].productPhotos?.productImg
+                }
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={
+                  product.productColor[colorIndex].productPhotos?.frontImg
+                }
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={product.productColor[colorIndex].productPhotos?.leftImg}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={
+                  product.productColor[colorIndex].productPhotos?.rightImg
+                }
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={product.productColor[colorIndex].productPhotos?.backImg}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+            </>
+          )}
         </Stack>
       </Grid>
       {/*👆  products images preview  👆  */}
@@ -188,7 +206,15 @@ const ProductView = ({ product, customize }) => {
         sx={{ boxSizing: "border-box", paddingX: "20px" }}
       >
         <Stack spacing={2}>
-          <S3Image imgKey={selectedImage} style={{ width: { xs: "100%" } }} />
+          {searchParams.has("canvas") ? (
+            <img
+              src={selectedImage}
+              alt="display image"
+              style={{ width: { xs: "100%" } }}
+            />
+          ) : (
+            <S3Image imgKey={selectedImage} style={{ width: { xs: "100%" } }} />
+          )}
         </Stack>
       </Grid>
       {/*👆  main image  👆  */}
@@ -335,7 +361,7 @@ const ProductView = ({ product, customize }) => {
                   fontWeight: "600",
                 }}
               >
-                $
+                R
                 {product.productColor[colorIndex].productSize[sizeIndex]
                   .unitPrice *
                   quantity -
@@ -347,7 +373,7 @@ const ProductView = ({ product, customize }) => {
               <Stack direction={"row"}>
                 <Typography mr={1} color={"grey"} fontFamily={"Oswald"}>
                   <s>
-                    $
+                    R
                     {product.productColor[colorIndex].productSize[sizeIndex]
                       .unitPrice * quantity}
                   </s>

@@ -85,7 +85,7 @@ const SingleOrder = ({ order }) => {
         boxSizing={"border-box"}
       >
         <Typography fontWeight={600} fontFamily={"Oswald"} textAlign={"center"}>
-          ${order.amount}
+          R{order.amount}
         </Typography>
       </Grid>
       {/* ============ */}

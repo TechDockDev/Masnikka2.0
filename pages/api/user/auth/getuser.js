@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   //   return res.status(202).json({});
   // }
   if (req.method === "GET") {
+    console.log(req.headers.id);
     req.user = await getUser(req.headers.id);
     res.json({
       status: "success",

@@ -26,7 +26,13 @@ const getImageUrl = async (fileKey) => {
   }
 };
 
-const S3Image = ({ imgKey, setSelectedImage, style }) => {
+const S3Image = ({
+  imageSide,
+  imgKey,
+  setSelectedImage,
+  style,
+  saveCanvasJson,
+}) => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -49,6 +55,9 @@ const S3Image = ({ imgKey, setSelectedImage, style }) => {
       onClick={(e) => {
         if (setSelectedImage) {
           setSelectedImage(imgKey);
+        }
+        if (saveCanvasJson) {
+          saveCanvasJson(e, imageSide);
         }
       }}
     />

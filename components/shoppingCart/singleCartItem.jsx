@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
+import S3Image from "@/lib/getImage";
 const SingleCartItem = ({ product }) => {
   const removeItem = async () => {
     try {
@@ -68,10 +69,9 @@ const SingleCartItem = ({ product }) => {
           order: 1,
         }}
       >
-        <Box
-          component="img"
-          src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productSize.productColor.productPhotos.thumbnailImg}`}
-          sx={{ height: "170px", width: "auto" }}
+        <S3Image
+          imgKey={product.productSize.productColor.productPhotos.thumbnailImg}
+          style={{ height: "170px", width: "auto" }}
         />
       </Grid>
       {/*👆  Product image  👆  */}
@@ -207,14 +207,14 @@ const SingleCartItem = ({ product }) => {
                 mr={1}
                 fontWeight={"bold"}
               >
-                $
+                R
                 {product.productSize.unitPrice -
                   (product.productSize.unitPrice *
                     product.productSize.product.discountPercent) /
                     100}
               </Typography>
               <Typography mr={1} color={"grey"} fontFamily={"Oswald"}>
-                <s>${product.productSize.unitPrice}</s>
+                <s>R{product.productSize.unitPrice}</s>
               </Typography>
               <Typography fontFamily={"Oswald"}>
                 {product.productSize.product.discountPercent}%
@@ -274,7 +274,7 @@ const SingleCartItem = ({ product }) => {
           mr={1}
           fontWeight={"bold"}
         >
-          $
+          R
           {product.productSize.unitPrice * product.quantity -
             (product.productSize.unitPrice *
               (product.quantity *

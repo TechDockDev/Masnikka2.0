@@ -8,6 +8,7 @@ import ImgToolbar from "./imgToolbar";
 import ShapesToolbar from "./shapesToolbar";
 import { useRouter } from "next/router";
 import axios from "axios";
+import S3Image from "@/lib/getImage";
 
 const CustomizationPage = ({ product }) => {
   const [prImg, setPrImg] = useState(
@@ -348,69 +349,40 @@ const CustomizationPage = ({ product }) => {
 
   //  ===👇 USE EFFECT👇
   useEffect(() => {
-    //  setPrImg("/assets/product.png");
+    // var img = new Image();
+    // img.src = prImg;
+    // // img.crossOrigin = "anonymous";
 
-    // fabric.Image.fromURL(
-    //   prImg,
-    //   function (oImg) {
-    //     // oImg.set({
-    //     //   left: 0,
-    //     //   top: 0,
-    //     //   width: editor.canvas.getWidth(),
-    //     //   height: editor.canvas.getHeight(),
-    //     //   scale: 1,
-    //     //   // scaleX: 2,
-    //     //   // scaleY: 1.5,
-    //     // });
-    //     // console.log(editor.canvas.getWidth());
-    //     // oImg.set({
-    //     //   left: 300,
-    //     //   top: 0,
-    //     //   objectFit: "contain",
-    //     // });
-    //     // oImg.scaleToHeight(300);
-    //     // oImg.scaleToWidth(300);
+    // img.onload = function () {
+    //   var image = new fabric.Image(img);
+    //   editor?.canvas?.setBackgroundImage(
+    //     image,
+    //     () => {
+    //       editor.canvas.renderAll.bind(editor.canvas);
+    //     },
+    //     {
+    //       scaleX: editor.canvas.width / img.width,
+    //       scaleY: editor.canvas.height / img.height,
+    //     }
+    //   );
+    // };
 
-    //     editor?.canvas.set("backgroundImage", oImg);
-    //     editor?.canvas?.renderAll();
-    //   },
-    //   {
-    //     // left: 100,
-    //     // top: 100,
-    //     // width: "100%",
-    //     // height: "100%",
+    fabric.Image.fromURL(prImg, function (img) {
+      // Set the image as the background
 
-    //     scaleX: 400 ,
-    //     scaleY: 400 ,
-
-    //     // backgroundImageOpacity: 0.5,
-    //     // backgroundImageStretch: false,
-    //     // centeredScaling: true,
-    //     // originY: "center",
-    //     // originX: "center",
-    //     // left: 350,
-    //     // top: 200,
-    //     // scale: 1,
-    //     // crossOrigin: "anonymous",
-    //   }
-    // );
-
-    var img = new Image();
-    img.src = prImg;
-    img.crossOrigin = "anonymous";
-    img.onload = function () {
-      var image = new fabric.Image(img);
-      editor?.canvas?.setBackgroundImage(
-        image,
-        () => {
-          editor.canvas.renderAll.bind(editor.canvas);
-        },
+      // img.getElement().crossOrigin = "anonymous";
+      editor?.canvas.setBackgroundImage(
+        img,
+        editor.canvas.renderAll.bind(editor.canvas),
         {
+          // crossOrigin: "",
           scaleX: editor.canvas.width / img.width,
           scaleY: editor.canvas.height / img.height,
         }
       );
-    };
+
+      // }
+    });
     return () => {
       // editor?.canvas?.dispose();
     };
@@ -420,24 +392,12 @@ const CustomizationPage = ({ product }) => {
 
   // ========
 
-  // const img = [
-  //   "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-  //   "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-  //   "https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg",
-  //   "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=",
-  // ];
-  // const img1 = {
-  //   frontImg:
-  //     "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-  //   backImg:
-  //     "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-  //   leftImg:
-  //     "https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2022/01/add-image-in-flutter-hero.png?fit=2850%2C1801&ssl=1",
-  //   rightImg:
-  //     "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=",
-  // };
-
   const saveCanvasJson = async (e, key) => {
+    var backgroundImage = editor?.canvas.backgroundImage;
+    if (backgroundImage) {
+      backgroundImage.getElement().crossOrigin = "anonymous";
+    }
+
     sessionStorage.setItem(
       previousCanvas,
       JSON.stringify(editor.canvas.toJSON())
@@ -448,12 +408,15 @@ const CustomizationPage = ({ product }) => {
       editor.deleteAll();
     }
     setPreviousCanvas(key);
-    console.log(e.target.src);
     setPrImg(e.target.src);
   };
 
   const saveCanvas = async () => {
     try {
+      var backgroundImage = editor?.canvas.backgroundImage;
+      if (backgroundImage) {
+        backgroundImage.getElement().crossOrigin = "anonymous";
+      }
       sessionStorage.setItem(
         previousCanvas,
         JSON.stringify(editor.canvas.toJSON())
@@ -482,7 +445,6 @@ const CustomizationPage = ({ product }) => {
     const productimages = JSON.parse(product)?.productPhotos;
     delete productimages["thumbnailImg"];
     delete productimages["productImg"];
-    console.log(productimages);
     setImages(productimages);
   }, []);
 
@@ -511,32 +473,39 @@ const CustomizationPage = ({ product }) => {
             {/* {Object.values(images).map((img, indexOfImg) => { */}
             {Object.entries(images).map((img) => {
               return (
-                <Box
+                <S3Image
                   key={img[0]}
-                  onClick={(e) => {
-                    saveCanvasJson(e, img[0]);
-                  }}
-                  alt={img[0]}
-                  component="img"
-                  src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${img[1]}`}
-                  // src={img[1]}
-                  sx={{
-                    height: { xs: "70px", md: "auto" },
-                    width: { xs: "auto", md: "70px" },
-                    marginX: { xs: "10px", md: "auto" },
-                    marginY: { xs: "0", md: "10px" },
-                    display: "block",
-                    cursor: "pointer",
-                    borderRadius: "8px",
-                    transition: "all 300ms ease",
-                    boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                    "&:hover": {
-                      scale: "0.96",
-                      border: "1px solid black",
-                      borderBottomWidth: "2px",
-                    },
-                  }}
+                  imageSide={img[0]}
+                  imgKey={img[1]}
+                  saveCanvasJson={saveCanvasJson}
+                  style={{ cursor: "pointer" }}
                 />
+
+                // <Box
+                //   key={img[0]}
+                //   onClick={(e) => {
+                //     saveCanvasJson(e, img[0]);
+                //   }}
+                //   alt={img[0]}
+                //   component="img"
+                //   src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/R{img[1]}`}
+                //   sx={{
+                //     height: { xs: "70px", md: "auto" },
+                //     width: { xs: "auto", md: "70px" },
+                //     marginX: { xs: "10px", md: "auto" },
+                //     marginY: { xs: "0", md: "10px" },
+                //     display: "block",
+                //     cursor: "pointer",
+                //     borderRadius: "8px",
+                //     transition: "all 300ms ease",
+                //     boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                //     "&:hover": {
+                //       scale: "0.96",
+                //       border: "1px solid black",
+                //       borderBottomWidth: "2px",
+                //     },
+                //   }}
+                // />
               );
             })}
           </Stack>

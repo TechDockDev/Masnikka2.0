@@ -1,12 +1,9 @@
-"use server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user/userModel";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-import { NextResponse } from "next/server";
 import cookie from "cookie";
-import { cookies } from "next/headers";
-import * as jose from "jose";
+
 // Generating token with user ID
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -21,11 +18,12 @@ const createSendToken = (user, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIES_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    sameSite: "lax",
+    // sameSite: "lax",
     httpOnly: true,
     path: "/",
   };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  cookieOptions.secure = false;
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("bearerToken", token, cookieOptions)

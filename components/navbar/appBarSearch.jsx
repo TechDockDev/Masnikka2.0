@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import S3Image from "@/lib/getImage";
 
 function debounce(fn) {
   let timer;
@@ -42,10 +43,6 @@ export default function ComboBox() {
     <Autocomplete
       onInputChange={async (event, value) => {
         if (value) {
-          // const { data } = await axios.get(
-          //   `/api/products/search?query=${value}`
-          // );
-          // setOptions(data.products);
           debouncedSearch(value);
         }
       }}
@@ -72,12 +69,11 @@ export default function ComboBox() {
               setOpen(false);
             }}
           >
-            <img
-              src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${option.productColor[0]?.productPhotos?.thumbnailImg}`}
-              width={50}
-              alt="image"
-              style={{ marginRight: "10px" }}
+            <S3Image
+              imgKey={option.productColor[0]?.productPhotos?.thumbnailImg}
+              style={{ width: 50, marginRight: "10px" }}
             />
+
             <Typography>{option.name}</Typography>
           </Stack>
         );
