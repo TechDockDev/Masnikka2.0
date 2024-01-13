@@ -9,7 +9,7 @@ export const config = {
 export async function middleware(req) {
   try {
     if (
-      req.nextUrl.pathname.includes("/login") ||
+      req.nextUrl.pathname.includes("/auth") ||
       req.nextUrl.pathname.includes("/payment")
     ) {
       return NextResponse.next();

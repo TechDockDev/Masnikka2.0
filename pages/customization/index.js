@@ -16,9 +16,8 @@ export default index;
 
 export async function getServerSideProps(context) {
   await dbConnect();
-  // console.log(context.query);
   // if (context.query.) {
-    
+
   // }
   const product = await productColorModel.findById(context.query.product);
   return {

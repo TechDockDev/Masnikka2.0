@@ -51,7 +51,7 @@ const CustomizationPage = ({ product }) => {
       editor?.setStrokeColor(e.target.value);
       editor?.canvas.renderAll();
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 Change text Color👆
@@ -61,7 +61,7 @@ const CustomizationPage = ({ product }) => {
       editor?.canvas?.remove(editor?.canvas?.getActiveObject());
       editor?.canvas?.renderAll();
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 Remove selected object👆
@@ -77,7 +77,7 @@ const CustomizationPage = ({ product }) => {
         editor?.canvas?.add(cloned);
       });
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 Clone Selected object👆
@@ -87,7 +87,7 @@ const CustomizationPage = ({ product }) => {
       editor?.canvas?.getActiveObject().toggle("flipX");
       editor?.canvas?.renderAll();
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 FLIP-X Selected object👆
@@ -97,7 +97,7 @@ const CustomizationPage = ({ product }) => {
       editor?.canvas?.getActiveObject().toggle("flipY");
       editor?.canvas?.renderAll();
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 FLIP-Y Selected object👆
@@ -112,7 +112,7 @@ const CustomizationPage = ({ product }) => {
         editor?.canvas?.renderAll();
       }
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 text style BOLD👆
@@ -127,7 +127,7 @@ const CustomizationPage = ({ product }) => {
         editor?.canvas?.renderAll();
       }
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 text style ITALIC👆
@@ -142,7 +142,7 @@ const CustomizationPage = ({ product }) => {
         editor?.canvas?.renderAll();
       }
     } else {
-      alert("No object slected");
+      alert("No items selected");
     }
   };
   // ===👆 text style UNDERLINE👆
@@ -343,9 +343,28 @@ const CustomizationPage = ({ product }) => {
   // **** 👆
 
   // ===👆 ADD SHAPE functions👆
-  //   console.log("--->", editor?.canvas?.getActiveObject()?.type);
 
   // *******************
+
+  useEffect(() => {
+    // Event listener for the "Delete" key
+    const handleKeyDown = (e) => {
+      // Check if the pressed key is the "Delete" key (keyCode 46) or (key "Delete" or "Backspace" on modern browsers)
+      if (e.key === "Delete") {
+        removeSelectedObject();
+      }
+    };
+
+    // Attach event listener when the component mounts
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once when the component mounts
 
   //  ===👇 USE EFFECT👇
   useEffect(() => {
@@ -375,9 +394,8 @@ const CustomizationPage = ({ product }) => {
         img,
         editor.canvas.renderAll.bind(editor.canvas),
         {
-          // crossOrigin: "",
-          scaleX: editor.canvas.width / img.width,
-          scaleY: editor.canvas.height / img.height,
+          left: editor.canvas.width / 2 - img.width / 2,
+          top: editor.canvas.height / 2 - img.height / 2,
         }
       );
 
@@ -421,6 +439,14 @@ const CustomizationPage = ({ product }) => {
         previousCanvas,
         JSON.stringify(editor.canvas.toJSON())
       );
+      if (
+        !sessionStorage.getItem("frontImg") ||
+        !sessionStorage.getItem("leftImg") ||
+        !sessionStorage.getItem("rightImg") ||
+        !sessionStorage.getItem("backImg")
+      ) {
+        return alert("Please view all the angles before proceeding");
+      }
       const { data } = await axios.post("/api/Customize/design", {
         productId: JSON.parse(product).product,
         productColorId: JSON.parse(product)._id,
@@ -480,32 +506,6 @@ const CustomizationPage = ({ product }) => {
                   saveCanvasJson={saveCanvasJson}
                   style={{ cursor: "pointer" }}
                 />
-
-                // <Box
-                //   key={img[0]}
-                //   onClick={(e) => {
-                //     saveCanvasJson(e, img[0]);
-                //   }}
-                //   alt={img[0]}
-                //   component="img"
-                //   src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/R{img[1]}`}
-                //   sx={{
-                //     height: { xs: "70px", md: "auto" },
-                //     width: { xs: "auto", md: "70px" },
-                //     marginX: { xs: "10px", md: "auto" },
-                //     marginY: { xs: "0", md: "10px" },
-                //     display: "block",
-                //     cursor: "pointer",
-                //     borderRadius: "8px",
-                //     transition: "all 300ms ease",
-                //     boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                //     "&:hover": {
-                //       scale: "0.96",
-                //       border: "1px solid black",
-                //       borderBottomWidth: "2px",
-                //     },
-                //   }}
-                // />
               );
             })}
           </Stack>

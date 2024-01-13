@@ -19,7 +19,9 @@ const getImageUrl = async (fileKey) => {
       ResponseContentDisposition: "inline", // Optional: Content-Disposition header
       ResponseContentType: "image/jpeg", // Optional: Content-Type header
     });
-    const url = await getSignedUrl(client, command, { expiresIn: 3600 });
+    const url = await getSignedUrl(client, command, {
+      expiresIn: 604800,
+    });
     return url;
   } catch (err) {
     console.log(err);

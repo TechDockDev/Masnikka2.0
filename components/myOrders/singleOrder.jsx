@@ -143,7 +143,6 @@ const SingleOrder = ({ order }) => {
                 order: order._id,
                 value,
               });
-              console.log(res);
               snackbar("Thanks for rating", "success");
             } catch (error) {
               console.log(error);

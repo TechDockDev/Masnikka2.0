@@ -3,9 +3,6 @@ import { Stack, Typography, colors } from "@mui/material";
 import React from "react";
 
 const ShoeSizes = ({ productSizes, setSizeIndex }) => {
-  const onChange = (e) => {
-    console.log("radio-", e.target.name, e.target.value);
-  };
   return (
     <Stack
       mt={1}

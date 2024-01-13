@@ -5,13 +5,21 @@ import theme from "../components/theme";
 import "@fontsource/oswald";
 import "@fontsource/roboto";
 import { AppProvider } from "@/context/AppContext";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <AppProvider>
-        <Component {...pageProps} />
-      </AppProvider>
-    </ThemeProvider>
+    <>
+      <Head>
+        <title>Masnikka</title>
+        <meta name="description" content="Masnikka" />
+        {/* Add other meta tags, links, etc. here */}
+      </Head>
+      <ThemeProvider theme={theme}>
+        <AppProvider>
+          <Component {...pageProps} />
+        </AppProvider>
+      </ThemeProvider>
+    </>
   );
 }

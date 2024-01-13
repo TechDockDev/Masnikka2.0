@@ -9,6 +9,7 @@ import {
   Backdrop,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import S3Image from "@/lib/getImage";
 
 const SingleDesign = ({ product }) => {
   const router = useRouter();
@@ -47,12 +48,9 @@ const SingleDesign = ({ product }) => {
       mb={1}
     >
       <Box position={"relative"}>
-        <Box
-          component={"img"}
-          alt="Design"
-          src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor.productPhotos.thumbnailImg}`}
-          width={"100%"}
-          display={"block"}
+        <S3Image
+          imgKey={product.productColor.productPhotos.thumbnailImg}
+          style={{ width: "100%", display: "block" }}
         />
         <Typography
           sx={{

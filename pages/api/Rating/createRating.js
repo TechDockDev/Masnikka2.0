@@ -22,7 +22,6 @@ export default async function handler(req, res) {
       case "POST":
         const value = req.body.value * 1;
         const order = await Order.findById(req.body.order);
-        console.log(order.customizedAmount);
         const product = await productModel.findById(req.body.product);
         const checkOldRating = await Rating.findOne({
           user: req.headers.id,
@@ -65,7 +64,6 @@ export default async function handler(req, res) {
               value: value,
             });
             order.rating = rating._id;
-            console.log("qqq", rating._id);
 
             await product.save();
             await order.save();
@@ -81,7 +79,6 @@ export default async function handler(req, res) {
               value: value,
             });
             order.rating = rating._id;
-            console.log("qqq", rating._id);
             product.averageRating = value;
             await product.save();
             await order.save();

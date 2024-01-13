@@ -11,11 +11,11 @@ const PriceDetails = ({ cartData, addressId }) => {
       const { data } = await axios.post("/api/Order/getOrder", { addressId });
       myData[
         "notify_url"
-      ] = `https://zl4xg9kb-3000.inc1.devtunnels.ms/api/payment/${data.transaction._id}`;
+      ] = `https://masnikka/api/payment/${data.transaction._id}`;
       const notify_url_input = document.createElement("input");
       notify_url_input.type = "hidden";
       notify_url_input.name = "notify_url";
-      notify_url_input.value = `https://zl4xg9kb-3000.inc1.devtunnels.ms/api/payment/${data.transaction._id}`;
+      notify_url_input.value = `https://masnikka.com/api/payment/${data.transaction._id}`;
 
       event.target.appendChild(notify_url_input);
 
@@ -30,8 +30,8 @@ const PriceDetails = ({ cartData, addressId }) => {
   // Merchant details
   myData["merchant_id"] = process.env.NEXT_PUBLIC_MERCHANT_ID;
   myData["merchant_key"] = process.env.NEXT_PUBLIC_MERCHANT_KEY;
-  myData["return_url"] = "http://localhost:3000";
-  myData["cancel_url"] = "http://localhost:3000";
+  myData["return_url"] = "https://masnikka.com";
+  myData["cancel_url"] = "https://masnikka.com";
   // Transaction details
   myData["m_payment_id"] = userId;
   myData["amount"] = cartData?.totalPrice.toString();

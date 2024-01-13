@@ -40,19 +40,9 @@ const userSchema = new Schema({
       ref: "Address",
     },
   ],
-  reviews: [
-    {
-      // type: Schema.ObjectId,
-      type: String,
-    },
-  ],
-  myDesigns: [
-    {
-      type: String,
-    },
-  ],
+  reviews: [{ type: String }],
+  myDesigns: [{ type: String }],
 });
-// userSchema.index({ location: "2dsphere" });
 
 const User = mongoose.models?.User || mongoose.model("User", userSchema);
 

@@ -31,7 +31,6 @@ const AddNewAddress = ({ toggleAddChange, editAddress, setEditAddress }) => {
       } else {
         res = await axios.post("/api/Address/addressInfo", addressData);
       }
-      console.log(res);
       router.reload();
     } catch (error) {
       console.log(error);

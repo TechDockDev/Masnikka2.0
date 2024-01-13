@@ -51,7 +51,6 @@ const Profile = () => {
           password: newPassword.password,
         });
         setPasswordChange(!passwordChange);
-        console.log(res);
       } catch (error) {
         console.log(error);
       }

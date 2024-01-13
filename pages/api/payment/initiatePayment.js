@@ -8,7 +8,6 @@ export default async function handler(req, res) {
   try {
     switch (req.method) {
       case "GET":
-        console.log("hello");
         res.json({
           status: "success",
         });

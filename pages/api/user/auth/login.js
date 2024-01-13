@@ -46,9 +46,18 @@ export default async function handler(req, res) {
   }
   if (req.method === "POST") {
     try {
+      if (req.body.loginType === "google") {
+        // import auth from "./firebase-config";
+        const auth = require("./firebase-config");
+        const { email } = await auth.verifyIdToken(req.body.idToken);
+        let user = await User.findOne({ email });
+        if (user) {
+          return createSendToken(user, res);
+        }
+      }
       const { email, password } = req.body;
-      let user = await User.findOne({ email }).select("+password");
 
+      let user = await User.findOne({ email }).select("+password");
       if (user) {
         const checkPassword = await bcrypt.compare(password, user.password);
         if (checkPassword) {

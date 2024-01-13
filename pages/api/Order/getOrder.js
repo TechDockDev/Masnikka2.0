@@ -72,7 +72,6 @@ export default async function handler(req, res) {
             );
             const currentPrice =
               (element.productSize.unitPrice - dPrice) * element.quantity;
-            console.log(currentPrice);
             totalPrice =
               totalPrice +
               currentPrice +

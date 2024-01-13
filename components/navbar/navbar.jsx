@@ -124,7 +124,9 @@ const Navbar = () => {
             <NavMenuItem linkText={"HOME"} hyperLink={"/"} />
             {/*👆 HOME 👆  */}
             {/* 👇 MY DESIGNS 👇   */}
-            <NavMenuItem linkText={"My Designs"} hyperLink={"/designs"} />
+            {JSON.stringify(userData) !== "{}" && (
+              <NavMenuItem linkText={"My Designs"} hyperLink={"/designs"} />
+            )}
 
             {/*👆 MY DESIGNS 👆  */}
             {/* 👇 SEARCH BAR 👇   */}
@@ -258,7 +260,7 @@ const Navbar = () => {
       </Grid>
 
       <ModalComponent openModal={openLoginModal} toggleModal={toggleLoginModal}>
-        <LogIn toggleModal={toggleLoginModal} />
+        <LogIn toggleModal={toggleLoginModal} openSignUp={toggleSignupModal} />
       </ModalComponent>
       <ModalComponent
         openModal={openSignupModal}
