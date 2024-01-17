@@ -20,7 +20,7 @@ const AppProvider = ({ children }) => {
   };
   const getUserData = async () => {
     try {
-      const { data } = await axios.get("/api/user/auth/getuser");
+      const { data } = await axios.get("/api/user/getuser");
       setUserData(data.user);
     } catch (error) {
       console.log(error);

@@ -23,7 +23,7 @@ const NewPassword = () => {
       e.preventDefault();
       if (password.password !== password.confirmPassword) {
         console.log(password);
-        return snackbar("Password doesn't match", "success");
+        return snackbar("Password doesn't match", "error");
       }
       await axios.patch("/api/user/auth/newPassword", {
         email: sessionStorage.getItem("email"),

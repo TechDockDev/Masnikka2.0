@@ -32,7 +32,8 @@ const LogIn = ({ openModal, toggleModal, openSignUp }) => {
       setUserData(res?.data?.data.user);
       toggleModal();
     } catch (error) {
-      snackbar("Something went wrong", "error");
+      snackbar(error.response.data.message, "error");
+      // snackbar("Something went wrong", "error");
       toggleModal();
     }
   };

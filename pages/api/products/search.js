@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         const { query } = req.query;
         const products = await productModel
           .find({
-            name: { Rregex: query, Roptions: "i" },
+            name: { $regex: query, $options: "i" },
           })
           .populate("productColor");
         res.json({

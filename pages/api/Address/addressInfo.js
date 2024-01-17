@@ -26,13 +26,17 @@ export default async function handler(req, res) {
           state,
           country,
           pinCode,
-          defaultAddress,
         } = req.body;
+        let { defaultAddress } = req.body;
+        const user = await User.findById(req.headers.id);
+        if (user.address.length === 0) {
+          defaultAddress = true;
+        }
         const addressDoc = await Address.create({
           name,
-          phoneNumber,
           houseNo,
           address,
+          phoneNumber,
           city,
           state,
           country,
@@ -40,7 +44,6 @@ export default async function handler(req, res) {
           defaultAddress,
           user: req.headers.id,
         });
-        const user = await User.findById(req.headers.id);
         user.address.push(addressDoc._id);
         await user.save();
         res.status(200).json({

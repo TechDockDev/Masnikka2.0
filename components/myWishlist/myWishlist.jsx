@@ -44,7 +44,11 @@ const MyWishlist = () => {
           My Wishlist
         </Typography>
         <Divider />
-        {products.length === 0 && <Typography margin={3} variant="h6">Wishlist is empty</Typography>}
+        {products.length === 0 && (
+          <Typography margin={3} variant="h6">
+            Wishlist is empty
+          </Typography>
+        )}
       </Grid>
       {products.map((product) => {
         return <SingleWishItem key={product} wishlist={product} />;

@@ -364,32 +364,12 @@ const CustomizationPage = ({ product }) => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only once when the component mounts
+  }, [editor?.canvas.getActiveObject()]); // Run only once when the component mounts
 
   //  ===👇 USE EFFECT👇
   useEffect(() => {
-    // var img = new Image();
-    // img.src = prImg;
-    // // img.crossOrigin = "anonymous";
-
-    // img.onload = function () {
-    //   var image = new fabric.Image(img);
-    //   editor?.canvas?.setBackgroundImage(
-    //     image,
-    //     () => {
-    //       editor.canvas.renderAll.bind(editor.canvas);
-    //     },
-    //     {
-    //       scaleX: editor.canvas.width / img.width,
-    //       scaleY: editor.canvas.height / img.height,
-    //     }
-    //   );
-    // };
-
     fabric.Image.fromURL(prImg, function (img) {
       // Set the image as the background
-
-      // img.getElement().crossOrigin = "anonymous";
       editor?.canvas.setBackgroundImage(
         img,
         editor.canvas.renderAll.bind(editor.canvas),
@@ -398,19 +378,32 @@ const CustomizationPage = ({ product }) => {
           top: editor.canvas.height / 2 - img.height / 2,
         }
       );
-
-      // }
     });
+
+    // const img = new Image();
+
+    // img.onload = function () {
+    //   // Draw the image onto the canvas
+    //   editor.canvas.
+    //   editor.canvas.drawImage(
+    //     img,
+    //     0,
+    //     0,
+    //     editor.canvas.width,
+    //     editor.canvas.height
+    //   );
+    // };
+
+    // img.src = prImg;
+
     return () => {
       // editor?.canvas?.dispose();
     };
   }, [prImg]);
-
-  // ===👆 USE EFFECT👆
-
-  // ========
+  // ===== 👆 USE EFFECT👆 ========
 
   const saveCanvasJson = async (e, key) => {
+    if (previousCanvas === key) return;
     var backgroundImage = editor?.canvas.backgroundImage;
     if (backgroundImage) {
       backgroundImage.getElement().crossOrigin = "anonymous";
@@ -418,7 +411,8 @@ const CustomizationPage = ({ product }) => {
 
     sessionStorage.setItem(
       previousCanvas,
-      JSON.stringify(editor.canvas.toJSON())
+      // JSON.stringify(editor.canvas.toJSON())
+      JSON.stringify(editor.canvas.toDatalessJSON())
     );
     if (JSON.parse(sessionStorage.getItem(key))) {
       editor.canvas.loadFromJSON(JSON.parse(sessionStorage.getItem(key)));
@@ -458,10 +452,14 @@ const CustomizationPage = ({ product }) => {
         },
       });
       sessionStorage.clear();
-      router.push({
-        pathname: `/productpage/${data.customize._id}`,
-        query: { canvas: true },
-      });
+      router.push(
+        {
+          pathname: `/productpage/${data.customize._id}`,
+          query: { canvas: true },
+        },
+        undefined,
+        { prefetch: false }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -496,7 +494,6 @@ const CustomizationPage = ({ product }) => {
               height: "100%",
             }}
           >
-            {/* {Object.values(images).map((img, indexOfImg) => { */}
             {Object.entries(images).map((img) => {
               return (
                 <S3Image
@@ -527,8 +524,6 @@ const CustomizationPage = ({ product }) => {
             },
           }}
         >
-          {/* <Box component="img" src="/assets/product.png" sx={{ width: { xs: "auto" }, height: "85%", marginX: "auto", display: "block" }} /> */}
-          {/* <FabricComponent/> */}
           <FabricJSCanvas className="canvas-container" onReady={onReady} />
 
           {/* 👇 TOOLBARS   👇   */}

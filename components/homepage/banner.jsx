@@ -44,7 +44,7 @@ const Banner = () => {
           <Typography mt={2} variant="h5">
             UP to 80% OFF
           </Typography>
-          <Button
+          {/* <Button
             variant="outlined"
             sx={{
               color: "white",
@@ -56,7 +56,7 @@ const Banner = () => {
             size="large"
           >
             Shop now
-          </Button>
+          </Button> */}
         </Stack>
       </Grid>
       {/*👆  left side text content 👆  */}

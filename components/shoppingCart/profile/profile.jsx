@@ -15,6 +15,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { AppContext } from "@/context/AppContext";
 import axios from "axios";
 const Profile = () => {
+  const { snackbar } = useContext(AppContext);
   const [passwordChange, setPasswordChange] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const { userData, getUserData } = useContext(AppContext);
@@ -47,10 +48,11 @@ const Profile = () => {
   const changePassword = async () => {
     if (newPassword.password === newPassword.confirmPassword) {
       try {
-        const res = await axios.patch("/api/user/auth/changePassword", {
+        const res = await axios.patch("/api/user/changePassword", {
           password: newPassword.password,
         });
         setPasswordChange(!passwordChange);
+        snackbar("Password Changed Successfully", "success");
       } catch (error) {
         console.log(error);
       }

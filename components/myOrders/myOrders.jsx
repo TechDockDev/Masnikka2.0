@@ -38,9 +38,13 @@ const MyOrders = () => {
         Order History
       </Typography>
       <Divider />
-      {orders?.map((order) => (
-        <SingleOrder key={order._id} order={order} />
-      ))}
+      {orders?.length > 0 ? (
+        orders?.map((order) => <SingleOrder key={order._id} order={order} />)
+      ) : (
+        <Typography variant="h5" margin={"auto"}>
+          No orders found
+        </Typography>
+      )}
     </Stack>
   );
 };

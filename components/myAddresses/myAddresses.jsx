@@ -88,28 +88,30 @@ const MyAddresses = () => {
         />
       )}
       {/* ===👇 Addresses Box👇===*/}
-      <Grid
-        mt={4}
-        item
-        xs={12}
-        sx={{
-          border: "1px solid grey",
-          borderRadius: "8px",
-          padding: "24px 32px",
-          height: "fit-content",
-        }}
-      >
-        {addresses.map((address, index) => {
-          return (
-            <SingleAddress
-              key={address._id}
-              address={address}
-              setAddChangeMode={setAddChangeMode}
-              setEditAddress={setEditAddress}
-            />
-          );
-        })}
-      </Grid>
+      {addresses.length !== 0 && (
+        <Grid
+          mt={4}
+          item
+          xs={12}
+          sx={{
+            border: "1px solid grey",
+            borderRadius: "8px",
+            padding: "24px 32px",
+            height: "fit-content",
+          }}
+        >
+          {addresses.map((address, index) => {
+            return (
+              <SingleAddress
+                key={address._id}
+                address={address}
+                setAddChangeMode={setAddChangeMode}
+                setEditAddress={setEditAddress}
+              />
+            );
+          })}
+        </Grid>
+      )}
       {/* ===👆 Addresses Box👆 ===*/}
     </Grid>
   );

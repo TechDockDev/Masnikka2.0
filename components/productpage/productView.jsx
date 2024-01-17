@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { fabric } from "fabric";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ShoeSizes from "../shoeSizes";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -21,6 +21,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import S3Image from "@/lib/getImage";
+import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 
 const productImgStyle = {
   height: { xs: "70px" },
@@ -34,6 +35,8 @@ const productImgStyle = {
 };
 
 const ProductView = ({ product, customize }) => {
+  const { editor, onReady } = useFabricJSEditor();
+  const [svg, setSvg] = useState();
   const [selectedImage, setSelectedImage] = useState(
     product.productColor[0]?.productPhotos?.productImg
   );
@@ -91,43 +94,58 @@ const ProductView = ({ product, customize }) => {
   };
 
   const getCanvasImages = async () => {
-    const frontImg = await generateImage("frontJson", "frontImg");
-    const backImg = await generateImage("backJson", "backImg");
-    const rightImg = await generateImage("rightJson", "rightImg");
-    const leftImg = await generateImage("leftJson", "leftImg");
-    setImg({ frontImg, backImg, rightImg, leftImg });
-    setSelectedImage(frontImg);
+    try {
+      const frontImg = await generateImage("frontJson");
+      const backImg = await generateImage("backJson");
+      const rightImg = await generateImage("rightJson");
+      const leftImg = await generateImage("leftJson");
+      setImg({ frontImg, backImg, rightImg, leftImg });
+      setSelectedImage(frontImg);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
-  const generateImage = (json, image) => {
+  const generateImage = (imgSide) => {
     return new Promise((resolve, reject) => {
-      var canvas = new fabric.Canvas("yourCanvasElement");
-      canvas.loadFromJSON(JSON.parse(customize)[json], function () {
-        canvas.setHeight(
-          canvas.backgroundImage?.height * canvas.backgroundImage?.scaleY ||
-            canvas.height
-        );
-        canvas.setWidth(
-          canvas.backgroundImage?.width * canvas.backgroundImage?.scaleX ||
-            canvas.width
-        );
-        // Convert canvas to data URL
-        var dataURL = canvas.toDataURL({
-          format: "png",
-          quality: 1,
-        });
-
-        resolve(dataURL); // Resolve the Promise with the dataURL
-      });
+      const d = editor?.canvas.loadFromJSON(
+        JSON.parse(customize)[imgSide],
+        function () {
+          editor.canvas.setHeight(
+            editor.canvas.backgroundImage?.height *
+              editor.canvas.backgroundImage?.scaleY || editor.canvas.height
+          );
+          editor.canvas.setWidth(
+            editor.canvas.backgroundImage?.width *
+              editor.canvas.backgroundImage?.scaleX || editor.canvas.width
+          );
+          setSvg(editor.canvas.toSVG());
+          console.log(editor.canvas.toSVG());
+          resolve(editor?.canvas.toDataURL()); // Resolve the Promise with the dataURL
+        }
+      );
+      if (!d) reject("wrong");
+      console.log(d);
     });
   };
-
+  const effectHasRun = useRef(false);
   useEffect(() => {
-    getWishlist();
-    if (searchParams.get("canvas")) {
-      getCanvasImages();
+    if (!effectHasRun.current) {
+      getWishlist();
+      if (searchParams.get("canvas")) {
+        getCanvasImages();
+      }
+
+      // Set the ref to true to indicate that the effect has run
+      if (editor) {
+        effectHasRun.current = true;
+      }
     }
-  }, []);
+  }, [editor]);
+  // Example loading state
+  // if (!img.frontImg || !img.backImg || !img.rightImg || !img.leftImg) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <Grid
       container
@@ -139,6 +157,16 @@ const ProductView = ({ product, customize }) => {
         alignItems: { xs: "center", md: "start" },
       }}
     >
+      <div style={{ display: "none" }}>
+        <FabricJSCanvas className="canvas-container" onReady={onReady} />
+      </div>
+      {svg && (
+        <>
+          <div dangerouslySetInnerHTML={{ __html: svg }} />
+          kj
+        </>
+      )}
+
       {/* 👇 products images preview  👇   */}
       <Grid item xs={10} md={1} p={1}>
         <Stack
@@ -197,7 +225,6 @@ const ProductView = ({ product, customize }) => {
         </Stack>
       </Grid>
       {/*👆  products images preview  👆  */}
-
       {/* 👇 main image  👇   */}
       <Grid
         item
@@ -218,7 +245,6 @@ const ProductView = ({ product, customize }) => {
         </Stack>
       </Grid>
       {/*👆  main image  👆  */}
-
       {/* 👇 product info 👇   */}
       <Grid
         item
@@ -469,26 +495,30 @@ const ProductView = ({ product, customize }) => {
             >
               Add To Bag
             </Button>
-            <Button
-              component={Link}
+            <Link
               href={{
                 pathname: "/customization",
                 query: {
                   product: product.productColor[colorIndex]._id,
                 },
               }}
-              variant="outlined"
-              sx={{
+              style={{
+                color: "black",
                 fontFamily: "Oswald",
-                fontWeight: "16px",
                 fontWeight: "600",
-                height: "45px",
-                width: "120px",
-                ml: 3,
+                fontSize: "14px",
+                display: "inline-block",
+                padding: "10px 20px",
+                textDecoration: "none",
+                border: "1px solid gray",
+                borderRadius: "4px",
+                textTransform: "uppercase",
+                textAlign: "center",
+                marginLeft: "10px",
               }}
             >
               Customize
-            </Button>
+            </Link>
           </Box>
 
           {/*👆 Add to bag and customize button👆  */}

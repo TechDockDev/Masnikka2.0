@@ -10,7 +10,8 @@ export async function middleware(req) {
   try {
     if (
       req.nextUrl.pathname.includes("/auth") ||
-      req.nextUrl.pathname.includes("/payment")
+      req.nextUrl.pathname.includes("/payment") ||
+      req.nextUrl.pathname.includes("/search")
     ) {
       return NextResponse.next();
     }

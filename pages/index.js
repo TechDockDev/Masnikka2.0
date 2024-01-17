@@ -97,7 +97,7 @@ export async function getServerSideProps(context) {
       return sizes.some((size) => productSizesArr.includes(size));
     });
   }
-  if (lowerLimit > 0 && upperLimit > 0) {
+  if (lowerLimit >= 0 && upperLimit >= 0) {
     filteredProducts = filteredProducts.filter((product) => {
       const price = product.productColor[0].productSize[0].unitPrice;
       return lowerLimit < price && price < upperLimit;

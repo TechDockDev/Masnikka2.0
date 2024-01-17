@@ -58,11 +58,11 @@ const InputComponent = ({ name, type, placeholder, onChange, value }) => {
             />
             {showPassword ? (
               <IconButton onClick={toggleViewPassword} sx={styles2}>
-                <VisibilityOffIcon sx={{ color: "white" }} />
+                <VisibilityIcon sx={{ color: "white" }} />
               </IconButton>
             ) : (
               <IconButton onClick={toggleViewPassword} sx={styles2}>
-                <VisibilityIcon sx={{ color: "white" }} />
+                <VisibilityOffIcon sx={{ color: "white" }} />
               </IconButton>
             )}
           </Box>
@@ -77,6 +77,7 @@ const InputComponent = ({ name, type, placeholder, onChange, value }) => {
           onChange={onChange}
           sx={styles}
           placeholder={placeholder}
+          autoComplete="off"
           required
         />
       )}
