@@ -43,6 +43,7 @@ export default async function handler(req, res) {
             message: "Payment has been done successfully",
           });
         } catch (error) {
+          console.log(error);
           res.status(500).json({ status: "error", message: error.message });
         }
         break;

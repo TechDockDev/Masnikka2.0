@@ -51,7 +51,7 @@ const PriceDetails = ({ cartData, addressId }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const { data } = await axios.get("/api/user/auth/getuser");
+        const { data } = await axios.get("/api/user/getuser");
         setUserId(data.user._id);
       } catch (error) {
         console.log(error);
