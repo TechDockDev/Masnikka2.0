@@ -8,7 +8,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { fabric } from "fabric";
 import React, { useEffect, useRef, useState } from "react";
 import ShoeSizes from "../shoeSizes";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,7 +20,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import S3Image from "@/lib/getImage";
-import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 
 const productImgStyle = {
   height: { xs: "70px" },
@@ -35,8 +33,7 @@ const productImgStyle = {
 };
 
 const ProductView = ({ product, customize }) => {
-  const { editor, onReady } = useFabricJSEditor();
-  const [svg, setSvg] = useState();
+  const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState(
     product.productColor[0]?.productPhotos?.productImg
   );
@@ -45,13 +42,6 @@ const ProductView = ({ product, customize }) => {
   const [quantity, setQuantity] = useState(1);
   const [like, setLike] = useState();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [img, setImg] = useState({
-    frontImg: "",
-    backImg: "",
-    leftImg: "",
-    rightImg: "",
-  });
 
   const addToBag = async () => {
     try {
@@ -93,59 +83,15 @@ const ProductView = ({ product, customize }) => {
     }
   };
 
-  const getCanvasImages = async () => {
-    try {
-      const frontImg = await generateImage("frontJson");
-      const backImg = await generateImage("backJson");
-      const rightImg = await generateImage("rightJson");
-      const leftImg = await generateImage("leftJson");
-      setImg({ frontImg, backImg, rightImg, leftImg });
-      setSelectedImage(frontImg);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const generateImage = (imgSide) => {
-    return new Promise((resolve, reject) => {
-      const d = editor?.canvas.loadFromJSON(
-        JSON.parse(customize)[imgSide],
-        function () {
-          editor.canvas.setHeight(
-            editor.canvas.backgroundImage?.height *
-              editor.canvas.backgroundImage?.scaleY || editor.canvas.height
-          );
-          editor.canvas.setWidth(
-            editor.canvas.backgroundImage?.width *
-              editor.canvas.backgroundImage?.scaleX || editor.canvas.width
-          );
-          setSvg(editor.canvas.toSVG());
-          console.log(editor.canvas.toSVG());
-          resolve(editor?.canvas.toDataURL()); // Resolve the Promise with the dataURL
-        }
-      );
-      if (!d) reject("wrong");
-      console.log(d);
-    });
-  };
-  const effectHasRun = useRef(false);
   useEffect(() => {
-    if (!effectHasRun.current) {
+    if (searchParams.get("canvas")) {
       getWishlist();
-      if (searchParams.get("canvas")) {
-        getCanvasImages();
-      }
-
-      // Set the ref to true to indicate that the effect has run
-      if (editor) {
-        effectHasRun.current = true;
-      }
+      setSelectedImage(JSON.parse(customize).frontImageFile);
+    } else {
+      setSelectedImage(product.productColor[0]?.productPhotos?.productImg);
     }
-  }, [editor]);
-  // Example loading state
-  // if (!img.frontImg || !img.backImg || !img.rightImg || !img.leftImg) {
-  //   return <div>Loading...</div>;
-  // }
+  }, []);
+
   return (
     <Grid
       container
@@ -157,16 +103,6 @@ const ProductView = ({ product, customize }) => {
         alignItems: { xs: "center", md: "start" },
       }}
     >
-      <div style={{ display: "none" }}>
-        <FabricJSCanvas className="canvas-container" onReady={onReady} />
-      </div>
-      {svg && (
-        <>
-          <div dangerouslySetInnerHTML={{ __html: svg }} />
-          kj
-        </>
-      )}
-
       {/* 👇 products images preview  👇   */}
       <Grid item xs={10} md={1} p={1}>
         <Stack
@@ -177,16 +113,28 @@ const ProductView = ({ product, customize }) => {
           }}
         >
           {searchParams.has("canvas") ? (
-            Object.entries(img).map(([key, value]) => (
-              <Box
-                key={key}
-                component={"img"}
-                src={value}
-                alt="customize"
-                sx={productImgStyle}
-                onClick={(e) => setSelectedImage(value)}
+            <>
+              <S3Image
+                imgKey={JSON.parse(customize).frontImageFile}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
               />
-            ))
+              <S3Image
+                imgKey={JSON.parse(customize).backImageFile}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={JSON.parse(customize).leftImageFile}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+              <S3Image
+                imgKey={JSON.parse(customize).rightImageFile}
+                setSelectedImage={setSelectedImage}
+                style={productImgStyle}
+              />
+            </>
           ) : (
             <>
               <S3Image
@@ -233,15 +181,7 @@ const ProductView = ({ product, customize }) => {
         sx={{ boxSizing: "border-box", paddingX: "20px" }}
       >
         <Stack spacing={2}>
-          {searchParams.has("canvas") ? (
-            <img
-              src={selectedImage}
-              alt="display image"
-              style={{ width: { xs: "100%" } }}
-            />
-          ) : (
-            <S3Image imgKey={selectedImage} style={{ width: { xs: "100%" } }} />
-          )}
+          <S3Image imgKey={selectedImage} />
         </Stack>
       </Grid>
       {/*👆  main image  👆  */}

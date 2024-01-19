@@ -17,7 +17,7 @@ const CustomizationPage = ({ product }) => {
   const [images, setImages] = useState({});
   const { editor, onReady } = useFabricJSEditor();
   const [previousCanvas, setPreviousCanvas] = useState("frontImg");
-
+  const [buttonText, setButtonText] = useState("proceed");
   const [shapesInterface, setShapesInterface] = useState(false);
   const router = useRouter();
   //  ===👇 handle font select👇
@@ -163,13 +163,29 @@ const CustomizationPage = ({ product }) => {
   // ===👆 text style STRIKE THROUGH👆
   //  ===👇 ADD IMAGE function👇
   const addImage = (e) => {
-    const image = e.target.files[0];
-    if (image) {
-      fabric?.Image?.fromURL(URL.createObjectURL(e.target.files[0]), (img) => {
-        editor?.canvas?.add(img);
-        editor?.canvas?.renderAll();
-      });
-      // setImageFunc(URL.createObjectURL(e.target.files[0]));
+    const fileInput = e.target;
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const imageUrl = e.target.result;
+
+        // Create Fabric.js Image object from the local image URL
+        fabric.Image.fromURL(imageUrl, function (img) {
+          // Optionally, scale or manipulate the image as needed
+          img.scaleToWidth(editor.canvas.width / 2);
+          img.scaleToHeight(editor.canvas.height / 2);
+
+          // Add the image to the canvas
+          editor.canvas.add(img);
+
+          // Render the canvas
+          editor.canvas.renderAll();
+        });
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
     }
   };
   // ===👆 ADD IMAGE function👆
@@ -370,31 +386,17 @@ const CustomizationPage = ({ product }) => {
   useEffect(() => {
     fabric.Image.fromURL(prImg, function (img) {
       // Set the image as the background
+      // img.scaleToWidth(editor?.canvas.width);
+      // img.scaleToHeight(editor?.canvas.height);
       editor?.canvas.setBackgroundImage(
         img,
         editor.canvas.renderAll.bind(editor.canvas),
         {
-          left: editor.canvas.width / 2 - img.width / 2,
-          top: editor.canvas.height / 2 - img.height / 2,
+          // left: editor.canvas.width / 2 - img.width / 2,
+          // top: editor.canvas.height / 2 - img.height / 2,
         }
       );
     });
-
-    // const img = new Image();
-
-    // img.onload = function () {
-    //   // Draw the image onto the canvas
-    //   editor.canvas.
-    //   editor.canvas.drawImage(
-    //     img,
-    //     0,
-    //     0,
-    //     editor.canvas.width,
-    //     editor.canvas.height
-    //   );
-    // };
-
-    // img.src = prImg;
 
     return () => {
       // editor?.canvas?.dispose();
@@ -411,8 +413,8 @@ const CustomizationPage = ({ product }) => {
 
     sessionStorage.setItem(
       previousCanvas,
-      // JSON.stringify(editor.canvas.toJSON())
-      JSON.stringify(editor.canvas.toDatalessJSON())
+      JSON.stringify(editor.canvas.toJSON())
+      // JSON.stringify(editor.canvas.toDatalessJSON())
     );
     if (JSON.parse(sessionStorage.getItem(key))) {
       editor.canvas.loadFromJSON(JSON.parse(sessionStorage.getItem(key)));
@@ -441,6 +443,7 @@ const CustomizationPage = ({ product }) => {
       ) {
         return alert("Please view all the angles before proceeding");
       }
+      setButtonText("loading...");
       const { data } = await axios.post("/api/Customize/design", {
         productId: JSON.parse(product).product,
         productColorId: JSON.parse(product)._id,
@@ -450,18 +453,19 @@ const CustomizationPage = ({ product }) => {
           leftJson: sessionStorage.getItem("leftImg"),
           rightJson: sessionStorage.getItem("rightImg"),
         },
+        size: {
+          width: editor.canvas.width,
+          height: editor.canvas.height,
+        },
       });
       sessionStorage.clear();
-      router.push(
-        {
-          pathname: `/productpage/${data.customize._id}`,
-          query: { canvas: true },
-        },
-        undefined,
-        { prefetch: false }
-      );
+      router.push({
+        pathname: `/productpage/${data.customize._id}`,
+        query: { canvas: true },
+      });
     } catch (error) {
       console.log(error);
+      setButtonText("Something went wrong. Try again");
     }
   };
 
@@ -520,7 +524,7 @@ const CustomizationPage = ({ product }) => {
             "& canvas": { border: "1px solid #999" },
             "& .canvas-container": {
               width: "100%",
-              height: "400px",
+              height: "500px",
             },
           }}
         >
@@ -590,7 +594,7 @@ const CustomizationPage = ({ product }) => {
               height: "50px",
             }}
           >
-            Proceed
+            {buttonText}
           </Button>
         </Grid>
         {/*👆  main image  👆  */}

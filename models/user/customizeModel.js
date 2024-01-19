@@ -41,15 +41,12 @@ const CustomizeSchema = new Schema({
   },
   frontImageFile: {
     type: String,
-    default: "",
   },
   backImageFile: {
     type: String,
-    default: "3eb3599702479a12fa2b05c5bb6277f1",
   },
   leftImageFile: {
     type: String,
-    default: "a5bb877879cf12ef5efc6a5e01df2500",
   },
   rightImageFile: {
     type: String,

@@ -1,3 +1,4 @@
+import saveDesign from "@/lib/saveDesign";
 import Customize from "@/models/user/customizeModel";
 import User from "@/models/user/userModel";
 import Wishlist from "@/models/user/wishlistModel";
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
           productCount,
         });
       case "POST":
-        const { customizeData, productId, productColorId } = req.body;
+        const { customizeData, productId, productColorId, size } = req.body;
         const backCstmztn = JSON.parse(customizeData.backJson);
         const leftCstmztn = JSON.parse(customizeData.leftJson);
         const rightCstmztn = JSON.parse(customizeData.rightJson);
@@ -44,6 +45,27 @@ export default async function handler(req, res) {
           leftCstmztn.objects.length +
           rightCstmztn.objects.length +
           frontCstmztn.objects.length;
+        const frontImageFile = await saveDesign(
+          Math.floor(10000 + Math.random() * 90000),
+          customizeData.frontJson,
+          size
+        );
+        const backImageFile = await saveDesign(
+          Math.floor(10000 + Math.random() * 90000),
+          customizeData.backJson,
+          size
+        );
+        const leftImageFile = await saveDesign(
+          Math.floor(10000 + Math.random() * 90000),
+          customizeData.leftJson,
+          size
+        );
+        const rightImageFile = await saveDesign(
+          Math.floor(10000 + Math.random() * 90000),
+          customizeData.rightJson,
+          size
+        );
+
         const customize = await Customize.create({
           user: req.headers.id,
           product: productId,
@@ -53,6 +75,10 @@ export default async function handler(req, res) {
           leftJson: customizeData.leftJson,
           rightJson: customizeData.rightJson,
           designCount,
+          frontImageFile,
+          backImageFile,
+          leftImageFile,
+          rightImageFile,
         });
         res.status(200).json({
           status: "success",

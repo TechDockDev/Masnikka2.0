@@ -17,10 +17,13 @@ const getImageUrl = async (fileKey) => {
       Bucket: "masnikka",
       Key: fileKey,
       ResponseContentDisposition: "inline", // Optional: Content-Disposition header
-      ResponseContentType: "image/jpeg", // Optional: Content-Type header
+      ResponseContentType: "image/png", // Optional: Content-Type header
     });
     const url = await getSignedUrl(client, command, {
-      expiresIn: 604800,
+      expiresIn: 3600,
+
+      // signingRegion: "US East (N. Virginia) us-east-1",
+      // signableHeaders
     });
     return url;
   } catch (err) {
@@ -52,6 +55,7 @@ const S3Image = ({
     <Box
       component={"img"}
       src={imageUrl}
+      crossOrigin="anonymous"
       alt="product image"
       sx={style}
       onClick={(e) => {
@@ -67,3 +71,4 @@ const S3Image = ({
 };
 
 export default S3Image;
+export { getImageUrl };
