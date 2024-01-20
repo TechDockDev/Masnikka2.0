@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ShoeSizes from "../shoeSizes";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -20,6 +20,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import S3Image from "@/lib/getImage";
+import { AppContext } from "@/context/AppContext";
 
 const productImgStyle = {
   height: { xs: "70px" },
@@ -37,6 +38,7 @@ const ProductView = ({ product, customize }) => {
   const [selectedImage, setSelectedImage] = useState(
     product.productColor[0]?.productPhotos?.productImg
   );
+  const { snackbar } = useContext(AppContext);
   const [colorIndex, setColorIndex] = useState(0);
   const [sizeIndex, setSizeIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -62,6 +64,7 @@ const ProductView = ({ product, customize }) => {
       router.push("/cart");
     } catch (error) {
       console.log(error);
+      snackbar(error.response.data.message, "error");
     }
   };
   const addToWishlist = async () => {

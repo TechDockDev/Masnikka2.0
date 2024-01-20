@@ -494,7 +494,6 @@ const CustomizationPage = ({ product }) => {
             sx={{
               display: "flex",
               flexDirection: { xs: "row", md: "column" },
-              // border: "1px solid red",
               height: "100%",
             }}
           >
@@ -511,6 +510,7 @@ const CustomizationPage = ({ product }) => {
             })}
           </Stack>
         </Grid>
+
         {/* 👇 main image  👇   */}
 
         <Grid

@@ -40,7 +40,7 @@ const ConfirmCode = () => {
         >
           {/* 👇 OTP 👇 */}
           <InputComponent
-            type={"number"}
+            type={"tel"}
             placeholder={"Enter OTP"}
             name={"otp"}
             value={otp}

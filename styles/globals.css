@@ -19,7 +19,7 @@ body {
 .itemsInnerWrapper {}
 
 
-.itemWrapper{
+.itemWrapper {
   width: fit-content;
   /* border: 1px solid red; */
 }
@@ -62,16 +62,15 @@ body {
   width: 100%;
   /* border: 1px solid red; */
   /* left: 40%; */
-  top: 14px; 
+  top: 14px;
   z-index: 10;
   text-align: center;
 }
+
 /* carouselTitleContainer */
-.carouselTitleText{
+.carouselTitleText {
   background: white;
   width: fit-content;
   padding: 0px 10px;
   margin: auto;
 }
-
-/*👆 css for home page horizontal scroll to display brands👆 */

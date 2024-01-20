@@ -3,7 +3,14 @@ import React, { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-const InputComponent = ({ name, type, placeholder, onChange, value }) => {
+const InputComponent = ({
+  name,
+  type,
+  placeholder,
+  onChange,
+  value,
+  onBlur,
+}) => {
   const [showPassword, setshowPassword] = useState(false);
 
   const toggleViewPassword = () => {
@@ -75,9 +82,10 @@ const InputComponent = ({ name, type, placeholder, onChange, value }) => {
           name={name}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           sx={styles}
           placeholder={placeholder}
-          autoComplete="off"
+          autoComplete="none"
           required
         />
       )}

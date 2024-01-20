@@ -61,7 +61,9 @@ export default async function handler(req, res) {
             );
             if (element.customized) {
               totalCustomizedPrice =
-                totalCustomizedPrice + element.productSize.customizePrice * element.customize.designCount;
+                totalCustomizedPrice +
+                element.productSize.customizePrice *
+                  element.customize.designCount;
               element.price =
                 element.price + element.productSize.customizePrice;
               totalPrice =
@@ -72,7 +74,6 @@ export default async function handler(req, res) {
           }
         }
 
-        // console.log(typeof myCart[0].price);
         res.status(200).json({
           status: "success",
           message: "success",

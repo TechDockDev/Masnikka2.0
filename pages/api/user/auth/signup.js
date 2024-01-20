@@ -43,7 +43,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       let user = await User.findOne({
-        Ror: [{ email: req.body.email }, { phoneNumber: req.body.phoneNumber }],
+        $or: [{ email: req.body.email }, { phoneNumber: req.body.phoneNumber }],
       });
 
       if (!user) {

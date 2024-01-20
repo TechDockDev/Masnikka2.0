@@ -82,7 +82,6 @@ export default async function handler(req, res) {
             element.shippingAmount = element.productSize.product.shippingCost;
             element.amount = element.productSize.unitPrice - dPrice;
             if (element.customized) {
-              console.log(element.productSize.customizePrice);
               element.price =
                 element.price + element.productSize.customizePrice;
               totalPrice =

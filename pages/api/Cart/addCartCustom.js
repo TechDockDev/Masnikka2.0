@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     switch (req.method) {
       case "POST":
         const { productSizeId, quantity, customizeId } = req.body;
-        console.log(customizeId);
         const productSize = await productSizeModel
           .findById(productSizeId)
           .populate("product");

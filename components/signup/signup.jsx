@@ -1,4 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import InputComponent from "../login/inputComponent";
 import { MuiTelInput } from "mui-tel-input";
@@ -8,7 +14,7 @@ import { AppContext } from "@/context/AppContext";
 
 const Signup = ({ toggleModal }) => {
   const { snackbar } = useContext(AppContext);
-
+  const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -29,8 +35,17 @@ const Signup = ({ toggleModal }) => {
   };
   // =========================
 
+  function isValidEmail(e) {
+    // Regular expression for a basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Test the email against the regex
+    setError(!emailRegex.test(e.target.value));
+  }
+  // console.log(error);
   const signupHandler = async (e) => {
     e.preventDefault();
+    if (error) return;
     try {
       let res = await axios.post("api/user/auth/signup", {
         userName: formData.userName,
@@ -41,7 +56,7 @@ const Signup = ({ toggleModal }) => {
       snackbar("Account created successfully", res.data.status);
       toggleModal();
     } catch (error) {
-      snackbar("Something went wrong", "error");
+      snackbar(error.response.data.message, "error");
       toggleModal();
     }
   };
@@ -72,7 +87,13 @@ const Signup = ({ toggleModal }) => {
         name={"email"}
         value={formData.email}
         onChange={onChangeHandler}
+        onBlur={isValidEmail}
       />
+      {error && (
+        <FormHelperText sx={{ color: "red", marginTop: "5px" }}>
+          Invalid email
+        </FormHelperText>
+      )}
       {/*👆 E-MAIL👆 */}
       {/* 👇 PHONE 👇 */}
 
