@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -14,7 +14,9 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import S3Image from "@/lib/getImage";
+import { AppContext } from "@/context/AppContext";
 const SingleCartItem = ({ product }) => {
+  const { snackbar } = useContext(AppContext);
   const removeItem = async () => {
     try {
       await axios.delete(`/api/Cart/deleteItem/${product._id}`);
@@ -32,6 +34,10 @@ const SingleCartItem = ({ product }) => {
       window.location.reload();
     } catch (error) {
       console.log(error);
+      if (error.response.status === 404) {
+        return snackbar("No stock left", "error");
+      }
+      snackbar("Something went wrong", "error");
     }
   };
   const removeQuantity = async () => {
@@ -42,6 +48,7 @@ const SingleCartItem = ({ product }) => {
       window.location.reload();
     } catch (error) {
       console.log(error);
+      snackbar("Something went wrong", "error");
     }
   };
 

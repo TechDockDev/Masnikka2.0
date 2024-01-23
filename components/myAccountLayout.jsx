@@ -172,7 +172,7 @@ const MyAccountLayout = ({ children }) => {
             }}
           >
             <ListItemIcon sx={{ minWidth: "40px" }}>
-              <img src="/assets/contact.svg" alt="" />
+              <img src="/assets/address.svg" alt="" />
             </ListItemIcon>
             <ListItemText
               primary="MY ADDRESSES"

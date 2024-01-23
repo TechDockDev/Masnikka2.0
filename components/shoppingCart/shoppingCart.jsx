@@ -31,6 +31,15 @@ const ShoppingCart = () => {
     getAddress();
   }, []);
 
+  if (cartData?.products.length === 0) {
+    return (
+      // <Typography variant="h3">
+      //   No products found. Add some in the cart first.
+      // </Typography>
+      <img src="/assets/empty-cart.svg" alt="empty-cart-logo" />
+    );
+  }
+
   return (
     <Stack paddingX="15px" position={"relative"}>
       <Grid

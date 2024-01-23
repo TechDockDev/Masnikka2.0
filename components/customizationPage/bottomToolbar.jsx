@@ -14,7 +14,7 @@ const BottomToolbar = ({ addText, addImage, addShape }) => {
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
         {/* 👇 color button 👇 */}
-        <IconButton
+        {/* <IconButton
           disableRipple
           sx={{
             borderRadius: "0px",
@@ -27,7 +27,7 @@ const BottomToolbar = ({ addText, addImage, addShape }) => {
           }}
         >
           <PaletteIcon /> <Typography paddingX="10px">Color</Typography>
-        </IconButton>
+        </IconButton> */}
         {/* 👆color button 👆*/}
         {/* 👇  Add text button 👇 */}
         <IconButton

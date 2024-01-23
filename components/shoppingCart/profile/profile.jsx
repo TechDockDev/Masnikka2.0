@@ -54,8 +54,11 @@ const Profile = () => {
         setPasswordChange(!passwordChange);
         snackbar("Password Changed Successfully", "success");
       } catch (error) {
+        snackbar("Something went wrong", "error");
         console.log(error);
       }
+    } else {
+      snackbar("Password and Confirm password doesn't match", "error");
     }
   };
 

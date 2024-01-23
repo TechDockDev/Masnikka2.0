@@ -87,7 +87,7 @@ const PriceDetails = ({ cartData, addressId }) => {
             Cart Subtotal ({cartData?.products.length} Items)
           </Typography>
           <Typography fontFamily={"Oswald"} fontSize={"16px"}>
-            {/* R{cartData.totalProductPrice} */}
+            R{cartData.totalProductPrice}
           </Typography>
         </Stack>
         <Stack
@@ -168,28 +168,6 @@ const PriceDetails = ({ cartData, addressId }) => {
         </Stack>
         {/* ===  === */}
       </Stack>
-      {/* <form action="https://sandbox.payfast.co.za​/eng/process" method="post">
-        <input type="hidden" name="merchant_id" value="10000100" />
-        <input type="hidden" name="merchant_key" value="46f0cd694581a" />
-        <input type="hidden" name="amount" value={cartData?.totalPrice} />
-        <input
-          type="hidden"
-          name="item_name"
-          value={`R{cartData?.products.length} Items`}
-          />
-          <input type="hidden" name="return_url" value="http://localhost:3000" />
-          <input
-          type="hidden"
-          name="notify_url"
-          value={`https://zl4xg9kb-3000.inc1.devtunnels.ms/api/payment/R{transactionId}`}
-          />
-          <input
-          type="hidden"
-          name="signature"
-          value={generateSignature("", "vishesh12345")}
-          />
-        <input type="hidden" name="cancel_url" value="https://instagram.com" /> */}
-      {/* <input type="submit" /> */}
       <form
         action="https://sandbox.payfast.co.za​/eng/process"
         method="post"

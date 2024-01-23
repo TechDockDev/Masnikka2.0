@@ -282,7 +282,10 @@ const ProductView = ({ product, customize }) => {
                     cursor: "pointer",
                     border: colorIndex === index ? "3px solid black" : "none",
                   }}
-                  onClick={() => setColorIndex(index)}
+                  onClick={() => {
+                    setColorIndex(index);
+                    setSizeIndex(0);
+                  }}
                 />
               );
             })}

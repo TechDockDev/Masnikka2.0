@@ -6,6 +6,8 @@ export default async function handler(req, res) {
   const cart = await Cart.findById(cartId).populate("productSize");
   switch (action) {
     case "Add":
+      console.log(cart.productSize.stock);
+      console.log(cart.quantity);
       if (cart.productSize.stock > cart.quantity) {
         cart.quantity = cart.quantity + 1;
         await cart.save();
@@ -14,9 +16,9 @@ export default async function handler(req, res) {
           message: "Quantity updated successfully",
         });
       } else {
-        res.status(204).json({
-          status: "success",
-          message: "No stock ",
+        res.status(404).json({
+          status: "error",
+          message: "No stock",
         });
       }
       break;
