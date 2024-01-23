@@ -94,7 +94,7 @@ const ProductView = ({ product, customize }) => {
       setSelectedImage(product.productColor[0]?.productPhotos?.productImg);
     }
   }, []);
-
+  console.log(product);
   return (
     <Grid
       container
@@ -376,7 +376,16 @@ const ProductView = ({ product, customize }) => {
                 }}
               >
                 <IconButton
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => {
+                    if (
+                      product.productColor[colorIndex].productSize[sizeIndex]
+                        .stock > quantity
+                    ) {
+                      setQuantity(quantity + 1);
+                    } else {
+                      snackbar("Stock not available", "error");
+                    }
+                  }}
                   sx={{
                     color: "#c4c4c4",
                     "&:hover": {
@@ -431,6 +440,10 @@ const ProductView = ({ product, customize }) => {
             <Button
               variant="contained"
               onClick={addToBag}
+              disabled={
+                product.productColor[colorIndex].productSize[sizeIndex]
+                  .stock === 0
+              }
               sx={{
                 fontFamily: "Oswald",
                 fontWeight: "16px",
@@ -439,7 +452,10 @@ const ProductView = ({ product, customize }) => {
                 width: "120px",
               }}
             >
-              Add To Bag
+              {product.productColor[colorIndex].productSize[sizeIndex].stock !==
+              0
+                ? "Add to Bag"
+                : "Out of stock"}
             </Button>
             <Link
               href={{
