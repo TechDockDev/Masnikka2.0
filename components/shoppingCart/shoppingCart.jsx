@@ -32,12 +32,7 @@ const ShoppingCart = () => {
   }, []);
 
   if (cartData?.products.length === 0) {
-    return (
-      // <Typography variant="h3">
-      //   No products found. Add some in the cart first.
-      // </Typography>
-      <img src="/assets/empty-cart.svg" alt="empty-cart-logo" />
-    );
+    return <img src="/assets/empty-cart.svg" alt="empty-cart-logo" />;
   }
 
   return (

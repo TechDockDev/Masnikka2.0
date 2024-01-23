@@ -87,7 +87,7 @@ const PriceDetails = ({ cartData, addressId }) => {
             Cart Subtotal ({cartData?.products.length} Items)
           </Typography>
           <Typography fontFamily={"Oswald"} fontSize={"16px"}>
-            R{cartData.totalProductPrice}
+            R{cartData?.totalProductPrice}
           </Typography>
         </Stack>
         <Stack
