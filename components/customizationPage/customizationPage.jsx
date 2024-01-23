@@ -465,6 +465,9 @@ const CustomizationPage = ({ product }) => {
       });
     } catch (error) {
       console.log(error);
+      if (error.response.status === 401) {
+        return setButtonText("Please login first");
+      }
       setButtonText("Something went wrong. Try again");
     }
   };

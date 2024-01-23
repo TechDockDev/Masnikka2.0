@@ -154,12 +154,13 @@ const Navbar = () => {
             )}
           </List>
           {/* 👇  CART BUTTON👇   */}
-
-          <IconButton sx={{ color: "white" }}>
-            <Link href={"/cart"}>
-              <ShoppingBagOutlinedIcon sx={{ color: "white" }} />
-            </Link>
-          </IconButton>
+          {JSON.stringify(userData) !== "{}" && (
+            <IconButton sx={{ color: "white" }}>
+              <Link href={"/cart"}>
+                <ShoppingBagOutlinedIcon sx={{ color: "white" }} />
+              </Link>
+            </IconButton>
+          )}
           {/*👆 CART BUTTON 👆  */}
         </Grid>
         {/*👆 grid for topbar right side navlinks and search bar 👆  */}
