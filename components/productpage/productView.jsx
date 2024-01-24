@@ -91,10 +91,12 @@ const ProductView = ({ product, customize }) => {
       getWishlist();
       setSelectedImage(JSON.parse(customize).frontImageFile);
     } else {
-      setSelectedImage(product.productColor[0]?.productPhotos?.productImg);
+      setSelectedImage(
+        product.productColor[colorIndex]?.productPhotos?.productImg
+      );
     }
-  }, []);
-  console.log(product);
+  }, [colorIndex]);
+
   return (
     <Grid
       container
@@ -271,24 +273,42 @@ const ProductView = ({ product, customize }) => {
             Select Color
           </Typography>
           <Stack direction={"row"} spacing={2} mt={1}>
-            {product.productColor.map((color, index) => {
-              return (
-                <Box
-                  key={index}
-                  height="20px"
-                  width="20px"
-                  bgcolor={color.colorCode}
-                  sx={{
-                    cursor: "pointer",
-                    border: colorIndex === index ? "3px solid black" : "none",
-                  }}
-                  onClick={() => {
-                    setColorIndex(index);
-                    setSizeIndex(0);
-                  }}
-                />
-              );
-            })}
+            {searchParams.get("canvas") ? (
+              <Box
+                // key={index}
+                height="20px"
+                width="20px"
+                bgcolor={JSON.parse(customize).productColor.colorCode}
+                sx={{
+                  cursor: "pointer",
+                  border: "3px solid black",
+                }}
+                onClick={() => {
+                  // setColorIndex(index);
+                  // setSizeIndex(0);
+                }}
+              />
+            ) : (
+              product.productColor.map((color, index) => {
+                return (
+                  <Box
+                    key={index}
+                    height="20px"
+                    width="20px"
+                    bgcolor={color.colorCode}
+                    sx={{
+                      cursor: "pointer",
+                      border: colorIndex === index ? "3px solid black" : "none",
+                    }}
+                    onClick={() => {
+                      setColorIndex(index);
+                      setSizeIndex(0);
+                      setQuantity(1);
+                    }}
+                  />
+                );
+              })
+            )}
           </Stack>
           {/*👆  select color👆  */}
 
@@ -304,10 +324,21 @@ const ProductView = ({ product, customize }) => {
           >
             Select Size
           </Typography>
-          <ShoeSizes
-            productSizes={product.productColor[colorIndex].productSize}
-            setSizeIndex={setSizeIndex}
-          />
+          {searchParams.get("canvas") ? (
+            <ShoeSizes
+              productSizes={JSON.parse(customize).productColor.productSize}
+              sizeIndex={sizeIndex}
+              setSizeIndex={setSizeIndex}
+              setQuantity={setQuantity}
+            />
+          ) : (
+            <ShoeSizes
+              productSizes={product.productColor[colorIndex].productSize}
+              sizeIndex={sizeIndex}
+              setSizeIndex={setSizeIndex}
+              setQuantity={setQuantity}
+            />
+          )}
           {/*👆  select size👆  */}
 
           {/* 👇 price total and quantity👇   */}
@@ -334,20 +365,32 @@ const ProductView = ({ product, customize }) => {
                 }}
               >
                 R
-                {product.productColor[colorIndex].productSize[sizeIndex]
-                  .unitPrice *
-                  quantity -
-                  product.productColor[colorIndex].productSize[sizeIndex]
-                    .unitPrice *
-                    quantity *
-                    (product.discountPercent / 100)}
+                {searchParams.get("canvas")
+                  ? JSON.parse(customize).productColor.productSize[sizeIndex]
+                      .unitPrice *
+                      quantity -
+                    JSON.parse(customize).productColor.productSize[sizeIndex]
+                      .unitPrice *
+                      quantity *
+                      (JSON.parse(customize).product.discountPercent / 100)
+                  : product.productColor[colorIndex].productSize[sizeIndex]
+                      .unitPrice *
+                      quantity -
+                    product.productColor[colorIndex].productSize[sizeIndex]
+                      .unitPrice *
+                      quantity *
+                      (product.discountPercent / 100)}
               </Typography>
               <Stack direction={"row"}>
                 <Typography mr={1} color={"grey"} fontFamily={"Oswald"}>
                   <s>
                     R
-                    {product.productColor[colorIndex].productSize[sizeIndex]
-                      .unitPrice * quantity}
+                    {searchParams.get("canvas")
+                      ? JSON.parse(customize).productColor.productSize[
+                          sizeIndex
+                        ].unitPrice * quantity
+                      : product.productColor[colorIndex].productSize[sizeIndex]
+                          .unitPrice * quantity}
                   </s>
                 </Typography>
                 <Typography fontFamily={"Oswald"}>
@@ -377,13 +420,25 @@ const ProductView = ({ product, customize }) => {
               >
                 <IconButton
                   onClick={() => {
-                    if (
-                      product.productColor[colorIndex].productSize[sizeIndex]
-                        .stock > quantity
-                    ) {
-                      setQuantity(quantity + 1);
+                    if (!searchParams.get("canvas")) {
+                      if (
+                        product.productColor[colorIndex].productSize[sizeIndex]
+                          .stock > quantity
+                      ) {
+                        setQuantity(quantity + 1);
+                      } else {
+                        snackbar("Stock not available", "error");
+                      }
                     } else {
-                      snackbar("Stock not available", "error");
+                      if (
+                        JSON.parse(customize).productColor.productSize[
+                          sizeIndex
+                        ].stock > quantity
+                      ) {
+                        setQuantity(quantity + 1);
+                      } else {
+                        snackbar("Stock not available", "error");
+                      }
                     }
                   }}
                   sx={{
@@ -436,52 +491,107 @@ const ProductView = ({ product, customize }) => {
           {/*👆 price total and quantity👆  */}
 
           {/* 👇 Add to bag and customize button👇   */}
-          <Box display={"flex"} mt={2}>
-            <Button
-              variant="contained"
-              onClick={addToBag}
-              disabled={
-                product.productColor[colorIndex].productSize[sizeIndex]
-                  .stock === 0
-              }
-              sx={{
-                fontFamily: "Oswald",
-                fontWeight: "16px",
-                fontWeight: "600",
-                height: "45px",
-                width: "120px",
-              }}
-            >
+          {!searchParams.has("canvas") ? (
+            <Box display={"flex"} mt={2}>
+              <Button
+                variant="contained"
+                onClick={addToBag}
+                disabled={
+                  product.productColor[colorIndex].productSize[sizeIndex]
+                    .stock === 0
+                }
+                sx={{
+                  fontFamily: "Oswald",
+                  fontWeight: "16px",
+                  fontWeight: "600",
+                  height: "45px",
+                  width: "120px",
+                }}
+              >
+                {product.productColor[colorIndex].productSize[sizeIndex]
+                  .stock !== 0
+                  ? "Add to Bag"
+                  : "Out of stock"}
+              </Button>
               {product.productColor[colorIndex].productSize[sizeIndex].stock !==
-              0
-                ? "Add to Bag"
-                : "Out of stock"}
-            </Button>
-            <Link
-              href={{
-                pathname: "/customization",
-                query: {
-                  product: product.productColor[colorIndex]._id,
-                },
-              }}
-              style={{
-                color: "black",
-                fontFamily: "Oswald",
-                fontWeight: "600",
-                fontSize: "14px",
-                display: "inline-block",
-                padding: "10px 20px",
-                textDecoration: "none",
-                border: "1px solid gray",
-                borderRadius: "4px",
-                textTransform: "uppercase",
-                textAlign: "center",
-                marginLeft: "10px",
-              }}
-            >
-              Customize
-            </Link>
-          </Box>
+                0 && (
+                <Link
+                  href={{
+                    pathname: "/customization",
+                    query: {
+                      product: product.productColor[colorIndex]._id,
+                    },
+                  }}
+                  style={{
+                    color: "black",
+                    fontFamily: "Oswald",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    display: "inline-block",
+                    padding: "10px 20px",
+                    textDecoration: "none",
+                    border: "1px solid gray",
+                    borderRadius: "4px",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    marginLeft: "10px",
+                  }}
+                >
+                  Customize
+                </Link>
+              )}
+            </Box>
+          ) : (
+            <Box display={"flex"} mt={2}>
+              <Button
+                variant="contained"
+                onClick={addToBag}
+                disabled={
+                  JSON.parse(customize).productColor.productSize[sizeIndex]
+                    .stock === 0
+                }
+                sx={{
+                  fontFamily: "Oswald",
+                  fontWeight: "16px",
+                  fontWeight: "600",
+                  height: "45px",
+                  width: "120px",
+                }}
+              >
+                {JSON.parse(customize).productColor.productSize[sizeIndex]
+                  .stock !== 0
+                  ? "Add to Bag"
+                  : "Out of stock"}
+              </Button>
+              {JSON.parse(customize).productColor.productSize[sizeIndex]
+                .stock !== 0 && (
+                <Link
+                  href={{
+                    pathname: "/customization",
+                    query: {
+                      product: JSON.parse(customize).productColor._id,
+                    },
+                  }}
+                  style={{
+                    color: "black",
+                    fontFamily: "Oswald",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    display: "inline-block",
+                    padding: "10px 20px",
+                    textDecoration: "none",
+                    border: "1px solid gray",
+                    borderRadius: "4px",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    marginLeft: "10px",
+                  }}
+                >
+                  Customize again
+                </Link>
+              )}
+            </Box>
+          )}
 
           {/*👆 Add to bag and customize button👆  */}
 

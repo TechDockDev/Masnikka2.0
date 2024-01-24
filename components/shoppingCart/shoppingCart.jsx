@@ -87,30 +87,36 @@ const ShoppingCart = () => {
               mt: 2,
             }}
           >
-            <Stack paddingY={"10px"}>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-              >
-                <Typography fontWeight={"600"} fontSize={"18px"}>
-                  {address.name}
+            {address ? (
+              <Stack paddingY={"10px"}>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Typography fontWeight={"600"} fontSize={"18px"}>
+                    {address.name}
+                  </Typography>
+                  <Button sx={{ color: "#0F6DB1", fontWeight: "600" }}>
+                    <Link href={"/addresses"}>Change</Link>
+                  </Button>
+                </Stack>
+                <Typography mt={1} color={"#3F3F3F"}>
+                  {address.houseNo} {address.address} {address.city}{" "}
+                  {address.state} {address.country} {address.pinCode}
                 </Typography>
-                <Button sx={{ color: "#0F6DB1", fontWeight: "600" }}>
-                  <Link href={"/addresses"}>Change</Link>
-                </Button>
+                <Typography mt={1}>{address.phoneNumber}</Typography>
               </Stack>
-              <Typography mt={1} color={"#3F3F3F"}>
-                {address.houseNo} {address.address} {address.city}{" "}
-                {address.state} {address.country} {address.pinCode}
-              </Typography>
-              <Typography mt={1}>{address.phoneNumber}</Typography>
-            </Stack>
+            ) : (
+              <Button sx={{ color: "#0F6DB1", fontWeight: "600" }}>
+                <Link href={"/addresses"}>Add address</Link>
+              </Button>
+            )}
           </Stack>
         </Grid>
         <Grid item xs={12} md={3.8} sx={{ boxSizing: "border-box" }}>
           {cartData && (
-            <PriceDetails cartData={cartData} addressId={address._id} />
+            <PriceDetails cartData={cartData} addressId={address?._id} />
           )}
         </Grid>
       </Grid>

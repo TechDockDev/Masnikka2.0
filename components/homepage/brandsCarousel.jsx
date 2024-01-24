@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ItemsCarousel from "react-items-carousel";
+import S3Image from "@/lib/getImage";
 
 const BrandsCarousel = ({ brands }) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
@@ -35,11 +36,10 @@ const BrandsCarousel = ({ brands }) => {
         }}
       >
         {JSON.parse(brands).map((brand) => (
-          <img
+          <S3Image
             key={brand._id}
-            alt={brand.name}
-            src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${brand.photo}`}
-            height="100px"
+            imgKey={brand.photo}
+            style={{ height: "100px" }}
           />
         ))}
       </ItemsCarousel>

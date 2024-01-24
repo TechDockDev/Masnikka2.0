@@ -70,14 +70,14 @@ const SingleProduct = ({ product }) => {
             readOnly
             size="small"
           />
-          <Typography
+          {/* <Typography
             ml={1}
             fontSize="16px"
             color={"grey"}
             fontWeight={"light"}
           >
             (2000)
-          </Typography>
+          </Typography> */}
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography fontSize="24px" mr={1} fontWeight={"bold"}>

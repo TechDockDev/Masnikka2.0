@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Box, Stack, Typography, Rating, Button } from "@mui/material";
 import axios from "axios";
+import S3Image from "@/lib/getImage";
 
 const SingleWishItem = ({ wishlist }) => {
   const { product } = wishlist;
@@ -41,10 +42,9 @@ const SingleWishItem = ({ wishlist }) => {
       mb={1}
     >
       <Box>
-        <Box
-          component={"img"}
-          src={`https://masnikkas3-storage.s3.af-south-1.amazonaws.com/${product.productColor[0].productPhotos.thumbnailImg}`}
-          width={"100%"}
+        <S3Image
+          imgKey={product.productColor[0].productPhotos.thumbnailImg}
+          style={{ width: "100%" }}
         />
       </Box>
       <Stack p={1}>

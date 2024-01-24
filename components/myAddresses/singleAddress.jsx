@@ -55,7 +55,7 @@ const SingleAddress = ({ address, setAddChangeMode, setEditAddress }) => {
               mb: 1,
             }}
           >
-            {address.name} (+{address.phoneNumber})
+            {address.name} ({address.phoneNumber})
           </Typography>
           <Typography
             sx={{

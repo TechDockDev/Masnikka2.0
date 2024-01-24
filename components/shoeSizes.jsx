@@ -2,7 +2,7 @@ import { Stack, Typography, colors } from "@mui/material";
 
 import React from "react";
 
-const ShoeSizes = ({ productSizes, setSizeIndex }) => {
+const ShoeSizes = ({ productSizes, setSizeIndex, sizeIndex, setQuantity }) => {
   return (
     <Stack
       mt={1}
@@ -13,10 +13,10 @@ const ShoeSizes = ({ productSizes, setSizeIndex }) => {
         "& input": {
           display: "none",
         },
-        "& input:checked + label": {
-          borderColor: "black",
-          color: "black",
-        },
+        // "& input:checked + label": {
+        // borderColor: "black",
+        // color: "black",
+        // },
         "& input:disabled + ::before": {
           position: "absolute",
           content: `""`,
@@ -45,18 +45,30 @@ const ShoeSizes = ({ productSizes, setSizeIndex }) => {
         },
       }}
     >
-      {productSizes.map((size, sizeIndex) => {
+      {productSizes.map((size, index) => {
         return (
-          <React.Fragment key={sizeIndex}>
+          <React.Fragment key={index}>
             <input
               type="radio"
               name="s-size"
               value={size.size}
-              onClick={() => setSizeIndex(sizeIndex)}
+              onClick={() => {
+                setSizeIndex(index);
+                setQuantity(1);
+              }}
               disabled={size.stock === 0}
               id={size.size}
             />
-            <label htmlFor={size.size}>{size.size} </label>
+            <label
+              style={
+                sizeIndex === index
+                  ? { borderColor: "black", color: "black" }
+                  : {}
+              }
+              htmlFor={size.size}
+            >
+              {size.size}{" "}
+            </label>
           </React.Fragment>
         );
       })}

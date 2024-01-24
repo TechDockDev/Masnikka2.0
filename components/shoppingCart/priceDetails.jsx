@@ -174,21 +174,23 @@ const PriceDetails = ({ cartData, addressId }) => {
         onSubmit={createOrder}
       >
         <div dangerouslySetInnerHTML={{ __html: htmlForm }} />
-        <Button
-          variant="contained"
-          fullWidth
-          type="submit"
-          sx={{
-            display: "block",
-            mt: 2,
-            mb: 2,
-            fontFamily: "Oswald",
-            borderRadius: "8px",
-            padding: "10px",
-          }}
-        >
-          Continue
-        </Button>
+        {addressId && (
+          <Button
+            variant="contained"
+            fullWidth
+            type="submit"
+            sx={{
+              display: "block",
+              mt: 2,
+              mb: 2,
+              fontFamily: "Oswald",
+              borderRadius: "8px",
+              padding: "10px",
+            }}
+          >
+            Continue
+          </Button>
+        )}
       </form>
     </>
   );

@@ -99,8 +99,11 @@ export async function getServerSideProps(context) {
   }
   if (lowerLimit >= 0 && upperLimit >= 0) {
     filteredProducts = filteredProducts.filter((product) => {
-      const price = product.productColor[0].productSize[0].unitPrice;
-      return lowerLimit < price && price < upperLimit;
+      const price =
+        (product.productColor[0].productSize[0].unitPrice *
+          (100 - product.discountPercent)) /
+        100;
+      return lowerLimit <= price && price <= upperLimit;
     });
   }
   const totalPages = Math.ceil(filteredProducts.length / 12);

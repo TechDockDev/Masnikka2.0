@@ -1,5 +1,5 @@
 "use client";
-import { Grid, Stack, Pagination } from "@mui/material";
+import { Grid, Stack, Pagination, Typography } from "@mui/material";
 import React from "react";
 import FiltersSidebar from "./filtersSidebar";
 import SingleProduct from "../singleProduct";
@@ -31,9 +31,13 @@ const BrowseProducts = ({ products, brands, categories, totalPages }) => {
             paddingLeft: { xs: "0px", md: "20px" },
           }}
         >
-          {products.map((product, index) => {
-            return <SingleProduct key={index} product={product} />;
-          })}
+          {products.length === 0 ? (
+            <Typography variant="h5">No Products found</Typography>
+          ) : (
+            products.map((product, index) => {
+              return <SingleProduct key={index} product={product} />;
+            })
+          )}
         </Grid>
         {/* 👆  PRODUCTS container 👆 */}
         {/* 👇  PAGINATION 👇 */}

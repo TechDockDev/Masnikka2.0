@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Layout from "./layout";
+import { usePathname } from "next/navigation";
 import {
   Stack,
   List,
@@ -16,6 +17,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { AppContext } from "@/context/AppContext";
 const MyAccountLayout = ({ children }) => {
+  const pathname = usePathname();
   const [openmenu, setOpenmenu] = useState(false);
   const { setUserData } = useContext(AppContext);
   const router = useRouter();
@@ -31,6 +33,7 @@ const MyAccountLayout = ({ children }) => {
       console.log(error);
     }
   };
+
   return (
     <Layout>
       <Stack paddingX="15px" position={"relative"} mb={2} direction={"row"}>
@@ -91,7 +94,9 @@ const MyAccountLayout = ({ children }) => {
               primary="Profile"
               primaryTypographyProps={{
                 sx: {
-                  color: "rgba(63, 63, 63, 0.8)",
+                  color: pathname.includes("/myaccount")
+                    ? "black"
+                    : "rgba(63, 63, 63, 0.8)",
                   fontWeight: "600",
                   textTransform: "uppercase",
                 },
@@ -120,7 +125,9 @@ const MyAccountLayout = ({ children }) => {
               primary="My Orders"
               primaryTypographyProps={{
                 sx: {
-                  color: "rgba(63, 63, 63, 0.8)",
+                  color: pathname.includes("/orders")
+                    ? "black"
+                    : "rgba(63, 63, 63, 0.8)",
                   fontWeight: "600",
                   textTransform: "uppercase",
                 },
@@ -149,7 +156,9 @@ const MyAccountLayout = ({ children }) => {
               primary="My Wishlist"
               primaryTypographyProps={{
                 sx: {
-                  color: "rgba(63, 63, 63, 0.8)",
+                  color: pathname.includes("/wishlist")
+                    ? "black"
+                    : "rgba(63, 63, 63, 0.8)",
                   fontWeight: "600",
                   textTransform: "uppercase",
                 },
@@ -178,7 +187,9 @@ const MyAccountLayout = ({ children }) => {
               primary="MY ADDRESSES"
               primaryTypographyProps={{
                 sx: {
-                  color: "rgba(63, 63, 63, 0.8)",
+                  color: pathname.includes("/addresses")
+                    ? "black"
+                    : "rgba(63, 63, 63, 0.8)",
                   fontWeight: "600",
                   textTransform: "uppercase",
                 },
@@ -187,7 +198,7 @@ const MyAccountLayout = ({ children }) => {
           </ListItemButton>
           {/*👆  MY ADDRESSES   👆  */}
           {/* 👇 FAQs  👇   */}
-          <ListItemButton
+          {/* <ListItemButton
             component={Link}
             href="/faqs"
             disableRipple
@@ -209,7 +220,7 @@ const MyAccountLayout = ({ children }) => {
                 sx: { color: "rgba(63, 63, 63, 0.8)", fontWeight: "600" },
               }}
             />
-          </ListItemButton>
+          </ListItemButton> */}
           {/*👆   FAQs   👆  */}
           {/* 👇 Logout  👇   */}
           <ListItemButton

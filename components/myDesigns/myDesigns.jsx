@@ -30,23 +30,31 @@ const MyDesigns = ({ customize, productCount }) => {
           </Typography>
           <Divider />
         </Grid>
-        {JSON.parse(customize).map((product) => (
-          <SingleDesign product={product} key={product._id} />
-        ))}
+        {JSON.parse(customize).length !== 0 ? (
+          JSON.parse(customize).map((product) => (
+            <SingleDesign product={product} key={product._id} />
+          ))
+        ) : (
+          <Typography variant="h5" marginX={"auto"} marginY={"10px"}>
+            No designs found
+          </Typography>
+        )}
       </Grid>
-      <Pagination
-        count={Math.ceil(productCount / 10)}
-        onChange={(e, value) => {
-          router.replace({
-            pathname: "/designs",
-            query: {
-              page: value,
-            },
-          });
-        }}
-        color="primary"
-        sx={{ marginX: "auto" }}
-      />
+      {JSON.parse(customize).length !== 0 && (
+        <Pagination
+          count={Math.ceil(productCount / 10)}
+          onChange={(e, value) => {
+            router.replace({
+              pathname: "/designs",
+              query: {
+                page: value,
+              },
+            });
+          }}
+          color="primary"
+          sx={{ marginX: "auto" }}
+        />
+      )}
     </Stack>
   );
 };

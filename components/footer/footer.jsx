@@ -18,7 +18,7 @@ const Footer = () => {
         mt: 3,
         display: { xs: "none", md: "block" },
       }}
-      position="static"
+      position="relative"
     >
       <Grid container padding="40px" width="90%" margin={"auto"}>
         {/* <Features /> */}

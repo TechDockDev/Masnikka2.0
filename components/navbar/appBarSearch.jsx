@@ -59,6 +59,8 @@ export default function ComboBox() {
       options={options}
       clearOnBlur={true}
       getOptionLabel={(option) => option.name}
+      freeSolo
+      noOptionsText={"No Products found"}
       renderOption={(props, option) => {
         return (
           <Stack

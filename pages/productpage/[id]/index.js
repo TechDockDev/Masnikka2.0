@@ -17,20 +17,12 @@ export default index;
 export async function getServerSideProps(context) {
   await dbConnect();
   if (context.query.canvas) {
-    const customize = await Customize.findById(context.params.id).populate({
-      path: "product",
-      populate: [
-        {
-          path: "brandId",
-          select: "name",
-        },
-        { path: "categoryId" },
-        {
-          path: "productColor",
-          populate: { path: "productSize" },
-        },
-      ],
-    });
+    const customize = await Customize.findById(context.params.id)
+      .populate({
+        path: "product",
+        populate: "productColor",
+      })
+      .populate({ path: "productColor", populate: "productSize" });
     return {
       props: {
         product: JSON.stringify(customize.product),

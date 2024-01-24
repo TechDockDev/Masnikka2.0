@@ -98,7 +98,7 @@ const Profile = () => {
         }}
       >
         <Stack alignItems={"center"} justifyContent={"center"} mb={3}>
-          <Avatar sx={{ width: "100px", height: "100px" }} />
+          {/* <Avatar sx={{ width: "100px", height: "100px" }} /> */}
           <Typography fontWeight={600} mt={2} textTransform={"uppercase"}>
             {userData.name}
           </Typography>
