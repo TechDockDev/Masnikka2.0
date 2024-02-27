@@ -56,7 +56,7 @@ const ProductView = ({ product, customize }) => {
       } else {
         await axios.post("/api/Cart/addCartCustom", {
           productSizeId:
-            product.productColor[colorIndex].productSize[sizeIndex]._id,
+            JSON.parse(customize).productColor.productSize[sizeIndex]._id,
           quantity,
           customizeId: JSON.parse(customize)._id,
         });
@@ -64,7 +64,7 @@ const ProductView = ({ product, customize }) => {
       router.push("/cart");
     } catch (error) {
       console.log(error);
-      snackbar(error.response.data.message, "error");
+      snackbar(error.response?.data.message, "error");
     }
   };
   const addToWishlist = async () => {

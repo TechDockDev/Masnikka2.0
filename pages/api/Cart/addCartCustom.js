@@ -11,6 +11,8 @@ export default async function handler(req, res) {
         const productSize = await productSizeModel
           .findById(productSizeId)
           .populate("product");
+        console.log(productSizeId);
+        console.log(productSize);
         const price = Math.trunc(
           (productSize.unitPrice *
             (100 - productSize.product.discountPercent)) /
