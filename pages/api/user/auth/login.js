@@ -3,6 +3,9 @@ import User from "@/models/user/userModel";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 import cookie from "cookie";
+import { initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
+import firebaseConfig from "./firebase-config";
 
 // Generating token with user ID
 const signToken = (id) => {
@@ -47,8 +50,12 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       if (req.body.loginType === "google") {
-        // import auth from "./firebase-config";
-        const auth = require("./firebase-config");
+        const app = initializeApp(
+          firebaseConfig,
+          Math.floor(1000 + Math.random() * 9000).toString()
+        );
+        const auth = getAuth(app);
+
         const { email } = await auth.verifyIdToken(req.body.idToken);
         let user = await User.findOne({ email });
         if (user) {

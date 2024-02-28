@@ -169,7 +169,8 @@ const PriceDetails = ({ cartData, addressId }) => {
         {/* ===  === */}
       </Stack>
       <form
-        action="https://sandbox.payfast.co.za​/eng/process"
+        // action="https://sandbox.payfast.co.za​/eng/process"
+        action="https://www.payfast.co.za/eng/process"
         method="post"
         onSubmit={createOrder}
       >

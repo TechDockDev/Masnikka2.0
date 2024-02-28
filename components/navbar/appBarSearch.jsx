@@ -29,13 +29,15 @@ export default function ComboBox() {
   const router = useRouter();
   const [options, setOptions] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   async function getProducts(query) {
     try {
       const res = await axios.get(`/api/products/search?query=${query}`);
       setOptions(res.data.products);
-      console.log(res.data.products);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
   const debouncedSearch = debounce(getProducts);
@@ -43,6 +45,7 @@ export default function ComboBox() {
     <Autocomplete
       onInputChange={async (event, value) => {
         if (value) {
+          setLoading(true);
           debouncedSearch(value);
         }
       }}
@@ -55,12 +58,18 @@ export default function ComboBox() {
       }}
       disablePortal
       id="combo-box-demo"
-      isOptionEqualToValue={(option, value) => option.name === value.name}
+      // isOptionEqualToValue={(option, value) => {
+      //   console.log(option);
+      //   console.log(value);
+      //   return option.name === value.name;
+      // }}
       options={options}
       clearOnBlur={true}
       getOptionLabel={(option) => option.name}
-      freeSolo
+      loading={loading}
+      // freeSolo
       noOptionsText={"No Products found"}
+      onBlur={() => setOptions([])}
       renderOption={(props, option) => {
         return (
           <Stack
@@ -72,7 +81,7 @@ export default function ComboBox() {
             }}
           >
             <S3Image
-              imgKey={option.productColor[0]?.productPhotos?.thumbnailImg}
+              imgKey={option?.productColor[0]?.productPhotos?.thumbnailImg}
               style={{ width: 50, marginRight: "10px" }}
             />
 

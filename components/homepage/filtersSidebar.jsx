@@ -230,6 +230,13 @@ const FiltersSidebar = ({ brands, categories }) => {
               placeholder="MIN"
               size="small"
               type="number"
+              min="0"
+              onInput={(e) => {
+                const num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = 0;
+                }
+              }}
               onChange={(e) =>
                 setPrice({ ...price, lowerLimit: parseInt(e.target.value) })
               }
@@ -244,6 +251,13 @@ const FiltersSidebar = ({ brands, categories }) => {
               placeholder="MAX"
               size="small"
               type="number"
+              min="0"
+              onInput={(e) => {
+                const num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = 0;
+                }
+              }}
               onChange={(e) =>
                 setPrice({ ...price, upperLimit: parseInt(e.target.value) })
               }

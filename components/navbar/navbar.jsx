@@ -184,9 +184,11 @@ const Navbar = () => {
             <AppBarSearch />
             {/*👆 SEARCH BAR👆  */}
             {/* 👇  CART BUTTON👇   */}
-            <IconButton sx={{ color: "white", paddingRight: "0px" }}>
-              <ShoppingBagOutlinedIcon />
-            </IconButton>
+            {JSON.stringify(userData) !== "{}" && (
+              <IconButton sx={{ color: "white", paddingRight: "0px" }}>
+                <ShoppingBagOutlinedIcon />
+              </IconButton>
+            )}
             {/*👆 CART BUTTON 👆  */}
             {/* 👇  CART BUTTON👇   */}
             <IconButton onClick={toggleMenu} sx={{ color: "white" }}>
