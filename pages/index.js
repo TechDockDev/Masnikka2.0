@@ -7,7 +7,8 @@ import productColorModel from "@/models/product/productColorModel";
 import productSizeModel from "@/models/product/productSizeModel";
 import Product from "@/models/product/productModel";
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
+import { Box, CircularProgress } from "@mui/material";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -30,6 +31,14 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+const center = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  height: "100vh",
+};
+
 export default function Home({ products, brands, categories, totalPages }) {
   const router = useRouter();
   useEffect(() => {
@@ -40,15 +49,41 @@ export default function Home({ products, brands, categories, totalPages }) {
       }
     }
   }, []);
+
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+  }, []);
+
   return (
     <ErrorBoundary fallback={<p>Something went wrong</p>}>
       <Layout>
-        <Homepage
-          products={JSON.parse(products)}
-          brands={brands}
-          categories={categories}
-          totalPages={totalPages}
-        />
+        {loading ? (
+          <Box sx={center}>
+            <CircularProgress sx={{ color: "maroon" }} />
+          </Box>
+        ) : (
+          <Homepage
+            products={JSON.parse(products)}
+            brands={brands}
+            categories={categories}
+            totalPages={totalPages}
+          />
+        )}
       </Layout>
     </ErrorBoundary>
   );

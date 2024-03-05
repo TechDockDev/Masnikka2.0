@@ -6,6 +6,7 @@ import "@fontsource/oswald";
 import "@fontsource/roboto";
 import { AppProvider } from "@/context/AppContext";
 import Head from "next/head";
+import React from "react";
 
 export default function App({ Component, pageProps }) {
   return (
