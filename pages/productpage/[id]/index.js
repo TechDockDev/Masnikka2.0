@@ -38,7 +38,6 @@ export async function getServerSideProps(context) {
       populate: { path: "productSize" },
     });
 
-  console.log(product.productColor[1].productSize[0]);
   return {
     props: { product: JSON.stringify(product) }, // will be passed to the page component as props
   };

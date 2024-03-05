@@ -136,7 +136,10 @@ const LogIn = ({ openModal, toggleModal, openSignUp }) => {
       {/* 👇 Forgot Password button 👇 */}
       <Button
         variant="text"
-        onClick={() => router.push("/forgetPassword")}
+        onClick={() => {
+          toggleModal();
+          router.push("/forgetPassword");
+        }}
         disableRipple
         sx={{
           color: "white",
@@ -160,7 +163,7 @@ const LogIn = ({ openModal, toggleModal, openSignUp }) => {
           "&:hover": { color: "#D01E25" },
         }}
       >
-        Google
+        Login with Google
       </Button>
       {/*👆 Login With google button👆 */}
       <Typography color={"white"} fontSize={"14px"} mt={2} textAlign={"center"}>

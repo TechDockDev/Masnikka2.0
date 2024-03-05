@@ -18,42 +18,49 @@ const MyWishlist = () => {
   }, []);
 
   return (
-    <Grid
-      item
-      container
-      xs={12}
-      md={9}
-      lg={10}
-      display="flex"
-      justifyContent={{ xs: "center", sm: "space-between" }}
+    <Stack
       sx={{
+        width: "100%",
         boxSizing: "border-box",
-        paddingLeft: { xs: "0px", md: "20px" },
+        padding: "10px 20px",
       }}
     >
-      <Grid item xs={12} mb={2} mt={3}>
-        <Typography
-          variant="h1"
+      <Typography
+        variant="h1"
+        sx={{
+          fontSize: "36px",
+          fontFamily: "Oswald",
+          textAlign: "center",
+          mt: 2,
+          mb: 2,
+        }}
+      >
+        My Wishlist
+      </Typography>
+      <Divider />
+      {products?.length > 0 ? (
+        <Grid
+          container
+          xs={12}
+          md={9}
+          lg={10}
+          display="flex"
+          justifyContent={{ xs: "center", sm: "space-between" }}
           sx={{
-            fontSize: "36px",
-            fontFamily: "Oswald",
-            textAlign: "center",
-            mb: 2,
+            boxSizing: "border-box",
+            paddingLeft: { xs: "0px", md: "20px" },
           }}
         >
-          My Wishlist
+          {products?.map((product) => (
+            <SingleWishItem key={product} wishlist={product} />
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="h5" margin={"auto"}>
+          Wishlist is empty
         </Typography>
-        <Divider />
-        {products.length === 0 && (
-          <Typography margin={3} variant="h6">
-            Wishlist is empty
-          </Typography>
-        )}
-      </Grid>
-      {products.map((product) => {
-        return <SingleWishItem key={product} wishlist={product} />;
-      })}
-    </Grid>
+      )}
+    </Stack>
   );
 };
 

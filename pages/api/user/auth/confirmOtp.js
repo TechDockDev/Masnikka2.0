@@ -14,9 +14,9 @@ export default async function handler(req, res) {
             return res.status(404).json({ message: "Otp doesn't exist" });
           }
           if (otp.code !== Number(code)) {
-            res.status(400).json({
+            res.status(401).json({
               status: "error",
-              message: "Otp verification failed",
+              message: "Otp is Invalid",
             });
           }
           otp.verified = true;

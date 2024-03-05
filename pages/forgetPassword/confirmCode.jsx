@@ -1,14 +1,16 @@
 import { Box, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import InputComponent from "@/components/login/inputComponent";
 import ModalComponent from "@/components/modalComponent";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "@/components/layout";
+import { AppContext } from "@/context/AppContext";
 
 const ConfirmCode = () => {
   const router = useRouter();
   const [otp, setOtp] = useState("");
+  const { snackbar } = useContext(AppContext);
   const onChangeHandler = (e) => {
     setOtp(e.target.value);
   };
@@ -22,6 +24,7 @@ const ConfirmCode = () => {
       });
       router.push("/forgetPassword/newPassword");
     } catch (error) {
+      snackbar(error.response.data.message, "error");
       console.log(error);
     }
   };
