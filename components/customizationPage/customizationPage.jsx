@@ -2,6 +2,7 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
+import FontFaceObserver from "fontfaceobserver";
 import BottomToolbar from "./bottomToolbar";
 import TextToolBar from "./textToolBar";
 import ImgToolbar from "./imgToolbar";
@@ -15,6 +16,7 @@ const CustomizationPage = ({ product }) => {
     JSON.parse(product)?.productPhotos.frontImg
   );
   const [images, setImages] = useState({});
+  const [selectedFont, setSelectedFont] = useState("Helvetica");
   const { editor, onReady } = useFabricJSEditor();
   const [previousCanvas, setPreviousCanvas] = useState("frontImg");
   const [buttonText, setButtonText] = useState("proceed");
@@ -22,8 +24,18 @@ const CustomizationPage = ({ product }) => {
   const router = useRouter();
   //  ===👇 handle font select👇
   const handleFontChange = (e) => {
-    editor?.canvas?.getActiveObject().set("fontFamily", e.target.value);
-    editor?.canvas.renderAll();
+    const font = new FontFaceObserver(e.target.value)
+      .load()
+      .then(function () {
+        setSelectedFont(e.target.value);
+        editor?.canvas?.getActiveObject().set("fontFamily", e.target.value);
+        editor?.canvas.renderAll();
+        alert("hello");
+      })
+      .catch(() => {
+        editor?.canvas?.getActiveObject()?.set("fontFamily", "Ariel");
+        editor?.canvas.renderAll();
+      });
   };
   // ===👆 handle font select👆
   //  ===👇 LAYERS toggle(bring layers front or back)👇
@@ -465,7 +477,7 @@ const CustomizationPage = ({ product }) => {
       });
     } catch (error) {
       console.log(error);
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         return setButtonText("Please login first");
       }
       setButtonText("Something went wrong. Try again");
@@ -547,6 +559,7 @@ const CustomizationPage = ({ product }) => {
               strike={strike}
               changeColor={changeColor}
               handleFontChange={handleFontChange}
+              selectedFont={selectedFont}
             />
           ) : editor?.canvas?.getActiveObject()?.type === "image" ? (
             <ImgToolbar

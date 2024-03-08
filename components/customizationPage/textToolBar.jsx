@@ -11,32 +11,16 @@ import {
 } from "@mui/material";
 
 const commonFonts = [
-  "Arial",
+  "Anta",
   "Helvetica",
-  "Calibri",
-  "Verdana",
-  "Geneva",
-  "Tahoma",
-  "Times New Roman",
-  "Georgia",
-  "Palatino",
-  "Book Antiqua",
-  "Times",
-  "Courier New",
-  "Consolas",
-  "Monaco",
-  "Menlo",
-  "Liberation Mono",
-  "DejaVu Sans Mono",
-  "Comic Sans MS",
-  "Papyrus",
-  "Brush Script MT",
-  "Snell Roundhand",
-  "Apple Chancery",
-  "Dom Casual",
+  "Montserrat",
+  "Pacifico",
   "Roboto",
+  "Rouge Script",
+  "Ojuju",
   "Oswald",
 ];
+
 const TextToolBar = ({
   clone,
   toggleLayer,
@@ -49,6 +33,7 @@ const TextToolBar = ({
   strike,
   changeColor,
   handleFontChange,
+  selectedFont,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -200,15 +185,11 @@ const TextToolBar = ({
 
         <FormControl fullWidth>
           <InputLabel id="font">Font</InputLabel>
-          {/* <Select labelId="font" id="font" label="Font" onChange={handleFontChange} sx={{}}>
-                  <MenuItem value={"Times New Roman"}>Times New Roman</MenuItem>
-                  <MenuItem value={"Roboto"}>Roboto</MenuItem>
-                  <MenuItem value={"Oswald"}>Oswald</MenuItem>
-               </Select> */}
           <Select
             labelId="font"
             id="font"
             label="Font"
+            value={selectedFont}
             onChange={handleFontChange}
           >
             {commonFonts.map((font) => (

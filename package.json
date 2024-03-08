@@ -28,6 +28,8 @@
     "fabricjs-react": "^1.2.0",
     "firebase": "^9.22.0",
     "firebase-admin": "^12.0.0",
+    "fontfaceobserver": "^2.3.0",
+    "fontkit": "^2.0.2",
     "jose": "^4.14.4",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.3.0",
