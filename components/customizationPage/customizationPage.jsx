@@ -52,6 +52,7 @@ const CustomizationPage = ({ product }) => {
       left: 200,
       top: 200,
     });
+    object.charSpacing = 70;
     editor.canvas.add(object);
   };
   // ===👆 ADD text function👆
