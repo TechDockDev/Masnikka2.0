@@ -30,7 +30,6 @@ const CustomizationPage = ({ product }) => {
         setSelectedFont(e.target.value);
         editor?.canvas?.getActiveObject().set("fontFamily", e.target.value);
         editor?.canvas.renderAll();
-        alert("hello");
       })
       .catch(() => {
         editor?.canvas?.getActiveObject()?.set("fontFamily", "Ariel");
@@ -46,6 +45,7 @@ const CustomizationPage = ({ product }) => {
   // ===👆 LAYERS toggle(bring layers front or back)👆
   //  ===👇 ADD text function👇
   const addText = () => {
+    setSelectedFont("Helvetica");
     const object = new fabric.IText("Edit Text", {
       fontFamily: "Helvetica",
       fontSize: 36,
@@ -417,6 +417,7 @@ const CustomizationPage = ({ product }) => {
   // ===== 👆 USE EFFECT👆 ========
 
   const saveCanvasJson = async (e, key) => {
+    setSelectedFont("Helvetica");
     if (previousCanvas === key) return;
     var backgroundImage = editor?.canvas.backgroundImage;
     if (backgroundImage) {

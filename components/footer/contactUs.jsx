@@ -55,7 +55,7 @@ const ContactUs = () => {
             color: "#828282",
           }}
         >
-          (123) 456-7890
+          011 848 6215
         </Typography>
         {/* ======Phone====== */}
         {/* =======Email===== */}
@@ -73,7 +73,7 @@ const ContactUs = () => {
             color: "#828282",
           }}
         >
-          mail@example.com
+          shop@masnikka.com
         </Typography>
         {/* ======Email====== */}
         {/* =====  working days/hours======= */}
@@ -91,7 +91,7 @@ const ContactUs = () => {
             color: "#828282",
           }}
         >
-          mon - Sun / 9:00 am - 8:00 PM
+          Mon – Sun / 8:00 AM – 5:00 PM
         </Typography>
         {/* ===== working days/hours======= */}
       </Box>

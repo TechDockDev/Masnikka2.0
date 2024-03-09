@@ -59,6 +59,7 @@ const InputComponent = ({
               name={name}
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
               sx={styles}
               placeholder={placeholder}
               required

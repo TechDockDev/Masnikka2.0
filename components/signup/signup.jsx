@@ -14,7 +14,7 @@ import { AppContext } from "@/context/AppContext";
 
 const Signup = ({ toggleModal }) => {
   const { snackbar } = useContext(AppContext);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({ email: false, confirmPassword: false });
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -40,12 +40,19 @@ const Signup = ({ toggleModal }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Test the email against the regex
-    setError(!emailRegex.test(e.target.value));
+    setError({ ...error, email: !emailRegex.test(e.target.value) });
   }
-  // console.log(error);
+
+  const checkConfirmPassword = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setError({ ...error, confirmPassword: true });
+    } else {
+      setError({ ...error, confirmPassword: false });
+    }
+  };
   const signupHandler = async (e) => {
     e.preventDefault();
-    if (error) return;
+    if (error.email || error.confirmPassword) return;
     try {
       let res = await axios.post("api/user/auth/signup", {
         userName: formData.userName,
@@ -89,7 +96,7 @@ const Signup = ({ toggleModal }) => {
         onChange={onChangeHandler}
         onBlur={isValidEmail}
       />
-      {error && (
+      {error.email && (
         <FormHelperText sx={{ color: "red", marginTop: "5px" }}>
           Invalid email
         </FormHelperText>
@@ -139,7 +146,13 @@ const Signup = ({ toggleModal }) => {
         name={"confirmPassword"}
         value={formData.confirmPassword}
         onChange={onChangeHandler}
+        onBlur={checkConfirmPassword}
       />
+      {error.confirmPassword && (
+        <FormHelperText sx={{ color: "red", marginTop: "5px" }}>
+          Password and Confirm Password doesn&apos;t match
+        </FormHelperText>
+      )}
       {/*👆 Confirm Password👆 */}
       {/* 👇 SignUp button 👇 */}
       <Button

@@ -39,7 +39,7 @@ const Banner = () => {
             fontSize={{ md: "45px", xs: "35px" }}
             fontWeight={700}
           >
-            SHOPPING WITHOUT LIMITS
+            PUT YOUR PERSONAL TOUCH
           </Typography>
           <Typography mt={2} variant="h5">
             UP to 80% OFF

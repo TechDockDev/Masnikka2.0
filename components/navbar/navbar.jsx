@@ -7,6 +7,7 @@ import {
   List,
   useMediaQuery,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import NavMenuItem from "./navMenuItem";
@@ -23,12 +24,12 @@ const Navbar = () => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openSignupModal, setOpenSignupModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const router = useRouter();
   const { userData, getUserData } = useContext(AppContext);
   const matchesSM = useMediaQuery("(max-width:600px)");
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
   };
-
   //👇 function to open login modal👇
   const toggleLoginModal = () => {
     setOpenLoginModal(!openLoginModal);
@@ -121,11 +122,19 @@ const Navbar = () => {
             }}
           >
             {/* 👇 HOME👇   */}
-            <NavMenuItem linkText={"HOME"} hyperLink={"/"} />
+            <NavMenuItem
+              linkText={"HOME"}
+              hyperLink={"/"}
+              active={router.asPath === "/"}
+            />
             {/*👆 HOME 👆  */}
             {/* 👇 MY DESIGNS 👇   */}
             {JSON.stringify(userData) !== "{}" && (
-              <NavMenuItem linkText={"My Designs"} hyperLink={"/designs"} />
+              <NavMenuItem
+                linkText={"My Designs"}
+                hyperLink={"/designs"}
+                active={router.asPath === "/designs"}
+              />
             )}
 
             {/*👆 MY DESIGNS 👆  */}
@@ -135,10 +144,18 @@ const Navbar = () => {
             {JSON.stringify(userData) === "{}" ? (
               <>
                 {/* 👇 LOG IN 👇   */}
-                <NavMenuItem handler={toggleLoginModal} linkText={"Log In"} />
+                <NavMenuItem
+                  handler={toggleLoginModal}
+                  linkText={"Log In"}
+                  // active={active === "Login"}
+                />
                 {/*👆 LOG IN 👆  */}
                 {/* 👇 SIGN UP👇   */}
-                <NavMenuItem handler={toggleSignupModal} linkText={"Sign Up"} />
+                <NavMenuItem
+                  handler={toggleSignupModal}
+                  linkText={"Sign Up"}
+                  // active={active === "SignUp"}
+                />
                 {/*👆 SIGN UP 👆  */}
               </>
             ) : (
@@ -148,6 +165,12 @@ const Navbar = () => {
                   toggleMenu={toggleMenu}
                   linkText={"My Account"}
                   hyperLink={"/myaccount"}
+                  active={[
+                    "/myaccount",
+                    "/orders",
+                    "/wishlist",
+                    "/addresses",
+                  ].includes(router.asPath)}
                 />
                 {/*👆 My Account 👆  */}
               </>

@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         res.json({
           status: "success",
           message: "Rating has been fetched successfully",
-          rating: rating.value,
+          rating: rating?.value,
         });
         break;
       case "POST":

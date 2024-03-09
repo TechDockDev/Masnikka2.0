@@ -3,7 +3,7 @@ import * as jose from "jose";
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/api/:path*",
+  matcher: "/((?!_next/static|_next/image|favicon.ico|assets|site).*)",
 };
 
 export async function middleware(req) {
@@ -16,16 +16,23 @@ export async function middleware(req) {
       return NextResponse.next();
     }
     if (!req.cookies.has("bearerToken")) {
-      return new NextResponse(
-        JSON.stringify({
-          status: "unauthorized",
-          message: "You are not logged in! Please log in to get access",
-        }),
-        {
-          status: 401,
-          headers: { "content-type": "application/json" },
+      if (req.nextUrl.pathname.includes("/api")) {
+        return new NextResponse(
+          JSON.stringify({
+            status: "unauthorized",
+            message: "You are not logged in! Please log in to get access",
+          }),
+          {
+            status: 401,
+            headers: { "content-type": "application/json" },
+          }
+        );
+      } else {
+        const regex = /^(?!.*\/(?:product|customization))(?!\/$).*$/;
+        if (regex.test(req.nextUrl.pathname)) {
+          return NextResponse.redirect(new URL("/", req.url));
         }
-      );
+      }
     } else {
       const decoded = await jose.jwtVerify(
         req.cookies.get("bearerToken").value,

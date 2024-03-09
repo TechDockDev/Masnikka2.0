@@ -87,8 +87,8 @@ const ProductView = ({ product, customize }) => {
   };
 
   useEffect(() => {
+    getWishlist();
     if (searchParams.get("canvas")) {
-      getWishlist();
       setSelectedImage(JSON.parse(customize).frontImageFile);
     } else {
       setSelectedImage(
