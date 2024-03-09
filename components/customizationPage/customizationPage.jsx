@@ -48,7 +48,7 @@ const CustomizationPage = ({ product }) => {
     setSelectedFont("Helvetica");
     const object = new fabric.IText("Edit Text", {
       fontFamily: "Helvetica",
-      fontSize: 36,
+      // fontSize: 36,
       left: 200,
       top: 200,
     });

@@ -28,7 +28,8 @@ export async function middleware(req) {
           }
         );
       } else {
-        const regex = /^(?!.*\/(?:product|customization))(?!\/$).*$/;
+        const regex =
+          /^(?!.*\/(?:product|customization|forgetPassword))(?!\/$).*$/;
         if (regex.test(req.nextUrl.pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
         }
